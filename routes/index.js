@@ -82,7 +82,7 @@ router.get('/test', function(req, res, next){
 });
 
 router.get('/register', auth.active, function(req, res, next){
-  res.render('register');
+  res.send('register');
 });
 
 router.get('/auth', auth.authenticate, function(req, res, next){
