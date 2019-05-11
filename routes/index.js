@@ -82,6 +82,7 @@ router.get('/test', function(req, res, next){
 });
 
 router.get('/register', auth.active, function(req, res, next){
+  return res.send(DATABASE_URI);
   res.render('register');
 });
 
