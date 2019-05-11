@@ -1,7 +1,7 @@
 const mongoose   = require('mongoose');
 mongoose.Promise = global.Promise;
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/k18', { useNewUrlParser : true}, (err) => {
+mongoose.connect('mongodb+srv://okwarafrank:nHBOxulT54kxQvCE@cluster0-qd9wy.mongodb.net/test?retryWrites=true', { useNewUrlParser : true}, (err) => {
     if(err){
         console.log(err);
     }
