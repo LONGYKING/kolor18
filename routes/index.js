@@ -82,7 +82,7 @@ router.get('/test', function(req, res, next){
 });
 
 router.get('/register', auth.active, function(req, res, next){
-  res.send('register');
+  res.send(process.env.MONGODB_URI);
 });
 
 router.get('/auth', auth.authenticate, function(req, res, next){
