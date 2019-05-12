@@ -1,0 +1,618 @@
+<?php require_once('header.php'); ?>
+<?php require_once('buddies_header_profile.php'); ?>
+<?php 
+	//getting the users friend
+	$get_buddies = "SELECT * FROM buddies_list WHERE user = '$buddy' AND deleted = 1";
+	$buddies_res = mysqli_query($connection,$get_buddies);
+ ?>
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="ui-block responsive-flex">
+				<div class="ui-block-title">
+					<div class="h6 title"><?php echo $firstname . ' ' . $lastname; ?> (<?php echo mysqli_num_rows($buddies_res); ?>)</div>
+					<form action="searchSub.php" method="POST" class="w-search">
+						<div class="form-group with-button">
+							<input type="text" name="search" class="form-control" type="text" placeholder="Search Buddies...">
+							<button type="submit" name="search_B">
+								<svg class="olymp-magnifying-glass-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+							</button>
+						</div>
+					</form>
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Friends -->
+
+<div class="container">
+	<div class="row">
+				<?php 
+					while ($row_res = mysqli_fetch_assoc($buddies_res)) {
+						$buddies = $row_res['buddy'];
+						//getting the users friend profile picture
+						$get_friend_pic = "SELECT * FROM profile_pic WHERE user = '$buddies' AND deleted = 1";
+						$friend_pic_res = mysqli_query($connection,$get_friend_pic);
+						$fetch_pic = mysqli_fetch_assoc($friend_pic_res);
+
+						?>
+		<div class=" col-xl-3 col-lg-6 col-md-6 col-sm-6">
+			<div class="ui-block">
+				
+				<!-- Friend Item -->
+				<div class="friend-item">
+					<div class="friend-header-thumb">
+						<img src="profile/<?php echo $fetch_pic['pic']; ?>" alt="friend">
+					</div>
+				
+					<div class="friend-item-content">
+				
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Report Profile</a>
+								</li>
+								<li>
+									<a href="#">Block Profile</a>
+								</li>
+								<li>
+									<a href="#">Turn Off Notifications</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img style="width: 100%;height: 90px;" src="profile/<?php echo $fetch_pic['pic']; ?>" alt="author">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name">Frank Designs</a>
+								<div class="country">San Francisco, CA</div>
+							</div>
+						</div>
+				
+						<div class="swiper-container" data-slide="fade">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<div class="friend-count" data-swiper-parallax="-500">
+										<a href="#" class="friend-count-item">
+											<div class="h6">52</div>
+											<div class="title">Friends</div>
+										</a>
+										<a href="#" class="friend-count-item">
+											<div class="h6">240</div>
+											<div class="title">Photos</div>
+										</a>
+										<a href="#" class="friend-count-item">
+											<div class="h6">16</div>
+											<div class="title">Videos</div>
+										</a>
+									</div>
+									<div class="control-block-button" data-swiper-parallax="-100">
+										<a href="#" class="btn btn-control bg-blue">
+											<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+										</a>
+				
+										<a href="#" class="btn btn-control bg-purple">
+											<svg class="olymp-chat---messages-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+										</a>
+				
+									</div>
+								</div>
+				
+								<div class="swiper-slide">
+									<p class="friend-about" data-swiper-parallax="-500">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium omnis, provident totam.
+									</p>
+				
+									<div class="friend-since" data-swiper-parallax="-100">
+										<span>Friends Since:</span>
+										<div class="h6">December 2014</div>
+									</div>
+								</div>
+							</div>
+				
+							<!-- If we need pagination -->
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- ... end Friend Item -->			</div>
+		</div>
+					<?php }
+				 ?>
+	</div>
+</div>
+
+<!-- ... end Friends -->
+
+
+
+
+<!-- Window-popup Update Header Photo -->
+
+<div class="modal fade" id="update-header-photo" tabindex="-1" role="dialog" aria-labelledby="update-header-photo" aria-hidden="true">
+	<div class="modal-dialog window-popup update-header-photo" role="document">
+		<div class="modal-content">
+			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+			</a>
+
+			<div class="modal-header">
+				<h6 class="title">Update Header Photo</h6>
+			</div>
+
+			<div class="modal-body">
+				<a href="#" class="upload-photo-item">
+				<svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+
+				<h6>Upload Photo</h6>
+				<span>Browse your computer.</span>
+			</a>
+
+				<a href="#" class="upload-photo-item" data-toggle="modal" data-target="#choose-from-my-photo">
+
+			<svg class="olymp-photos-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-photos-icon"></use></svg>
+
+			<h6>Choose from My Photos</h6>
+			<span>Choose from your uploaded photos</span>
+		</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- ... end Window-popup Update Header Photo -->
+
+<!-- Window-popup Choose from my Photo -->
+
+<div class="modal fade" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+	<div class="modal-dialog window-popup choose-from-my-photo" role="document">
+
+		<div class="modal-content">
+			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+			</a>
+			<div class="modal-header">
+				<h6 class="title">Choose from My Photos</h6>
+
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-expanded="true">
+							<svg class="olymp-photos-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-photos-icon"></use></svg>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-expanded="false">
+							<svg class="olymp-albums-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-albums-icon"></use></svg>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="modal-body">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<div class="radio">
+								<label class="custom-radio">
+									<img src="img/choose-photo1.jpg" alt="photo">
+									<input type="radio" name="optionsRadios">
+								</label>
+							</div>
+						</div>
+
+
+						<a href="#" class="btn btn-secondary btn-lg btn--half-width">Cancel</a>
+						<a href="#" class="btn btn-primary btn-lg btn--half-width">Confirm Photo</a>
+
+					</div>
+					<div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
+
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo10.jpg" alt="photo">
+								<figcaption>
+									<a href="#">South America Vacations</a>
+									<span>Last Added: 2 hours ago</span>
+								</figcaption>
+							</figure>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo1.jpg" alt="photo">
+								<figcaption>
+									<a href="#">Lorem ipsum dolor sit.</a>
+									<span>Last Added: 5 weeks ago</span>
+								</figcaption>
+							</figure>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo1.jpg" alt="photo">
+								<figcaption>
+									<a href="#">Lorem ipsum dolor sit.</a>
+									<span>Last Added: 6 mins ago</span>
+								</figcaption>
+							</figure>
+						</div>
+
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo1.jpg" alt="photo">
+								<figcaption>
+									<a href="#">Lorem ipsum dolor sit.</a>
+									<span>Last Added: 16 hours ago</span>
+								</figcaption>
+							</figure>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo1.jpg" alt="photo">
+								<figcaption>
+									<a href="#">Lorem ipsum dolor sit.</a>
+									<span>Last Added: 13 mins ago</span>
+								</figcaption>
+							</figure>
+						</div>
+						<div class="choose-photo-item" data-mh="choose-item">
+							<figure>
+								<img src="img/choose-photo1.jpg" alt="photo">
+								<figcaption>
+									<a href="#">Lorem ipsum dolor sit.</a>
+									<span>Last Added: 57 mins ago</span>
+								</figcaption>
+							</figure>
+						</div>
+
+
+						<a href="#" class="btn btn-secondary btn-lg btn--half-width">Cancel</a>
+						<a href="#" class="btn btn-primary btn-lg disabled btn--half-width">Confirm Photo</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- ... end Window-popup Choose from my Photo -->
+
+
+<a class="back-to-top" href="#">
+	<img src="svg-icons/back-to-top.svg" alt="arrow" class="back-icon">
+</a>
+
+
+
+
+<!-- Window-popup-CHAT for responsive min-width: 768px -->
+
+<div class="ui-block popup-chat popup-chat-responsive" tabindex="-1" role="dialog" aria-labelledby="update-header-photo" aria-hidden="true">
+
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="icon-status online"></span>
+			<h6 class="title" >Chat</h6>
+			<div class="more">
+				<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+				<svg class="olymp-little-delete js-chat-open"><use xlink:href="svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
+			</div>
+		</div>
+		<div class="modal-body">
+			<div class="mCustomScrollbar">
+				<ul class="notification-list chat-message chat-message-field">
+					<li>
+						<div class="author-thumb">
+							<img src="img/avatar1-sm.jpg" alt="author" class="mCS_img_loaded">
+						</div>
+						<div class="notification-event">
+							<span class="chat-message-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit magnam distinctio nesciunt saepe!</span>
+							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
+						</div>
+					</li>
+
+					<li>
+						<div class="author-thumb">
+							<img src="img/author-page.jpg" alt="author" class="mCS_img_loaded">
+						</div>
+						<div class="notification-event">
+							<span class="chat-message-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+							<span class="chat-message-item">I already bought everything</span>
+							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:29pm</time></span>
+						</div>
+					</li>
+
+					<li>
+						<div class="author-thumb">
+							<img src="img/avatar1-sm.jpg" alt="author" class="mCS_img_loaded">
+						</div>
+						<div class="notification-event">
+							<span class="chat-message-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis deserunt quaerat, id iure at, natus animi.</span>
+							<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<form class="need-validation">
+
+		<div class="form-group label-floating is-empty">
+			<label class="control-label">Press enter to post...</label>
+			<textarea class="form-control" placeholder=""></textarea>
+			<div class="add-options-message">
+				<a href="#" class="options-message">
+					<svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
+				</a>
+				<div class="options-message smile-block">
+
+					<svg class="olymp-happy-sticker-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-sticker-icon"></use></svg>
+
+					<ul class="more-dropdown more-with-triangle triangle-bottom-right">
+						<li>
+							<a href="#">
+								<img src="img/icon-chat1.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat2.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat3.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat4.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat5.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat6.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat7.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat8.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat9.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat10.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat11.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat12.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat13.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat14.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat15.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat16.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat17.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat18.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat19.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat20.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat21.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat22.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat23.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat24.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat25.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat26.png" alt="icon">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="img/icon-chat27.png" alt="icon">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</form>
+		</div>
+	</div>
+
+</div>
+
+<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+
+
+<!-- JS Scripts -->
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/jquery.appear.js"></script>
+<script src="js/jquery.mousewheel.js"></script>
+<script src="js/perfect-scrollbar.js"></script>
+<script src="js/jquery.matchHeight.js"></script>
+<script src="js/svgxuse.js"></script>
+<script src="js/imagesloaded.pkgd.js"></script>
+<script src="js/Headroom.js"></script>
+<script src="js/velocity.js"></script>
+<script src="js/ScrollMagic.js"></script>
+<script src="js/jquery.waypoints.js"></script>
+<script src="js/jquery.countTo.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/material.min.js"></script>
+<script src="js/bootstrap-select.js"></script>
+<script src="js/smooth-scroll.js"></script>
+<script src="js/selectize.js"></script>
+<script src="js/swiper.jquery.js"></script>
+<script src="js/moment.js"></script>
+<script src="js/daterangepicker.js"></script>
+<script src="js/simplecalendar.js"></script>
+<script src="js/fullcalendar.js"></script>
+<script src="js/isotope.pkgd.js"></script>
+<script src="js/ajax-pagination.js"></script>
+<script src="js/Chart.js"></script>
+<script src="js/chartjs-plugin-deferred.js"></script>
+<script src="js/circle-progress.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/run-chart.js"></script>
+<script src="js/jquery.magnific-popup.js"></script>
+<script src="js/jquery.gifplayer.js"></script>
+<script src="js/mediaelement-and-player.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
+
+<script src="js/base-init.js"></script>
+<script defer src="fonts/fontawesome-all.js"></script>
+
+<script src="js/bootstrap.bundle.js"></script>
+
+</body>
+</html>

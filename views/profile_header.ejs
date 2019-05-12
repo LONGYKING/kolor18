@@ -1,0 +1,255 @@
+<?php 
+		$username = $_SESSION['username'];
+
+		//getting the users information
+		$sql = "SELECT * FROM users WHERE username = '$username' AND deleted = 1";
+		$res = mysqli_query($connection,$sql);
+		$row = mysqli_fetch_assoc($res);
+		$username = $row['username'];
+		$firstname = $row['firstname'];
+		$lastname = $row['lastname'];
+		$likes = $row['likes'];
+		$bio = $row['bio'];
+
+		//getting the users profile picture
+		$query = "SELECT * FROM profile_pic WHERE user = '$username' AND deleted = 1";
+		$result = mysqli_query($connection,$query);
+		$get_pic = mysqli_fetch_assoc($result);
+		$pic = $get_pic['pic'];
+
+		//getting the users header image
+		$sql_header = "SELECT * FROM profile_header_pic WHERE user_id = '$username' AND deleted = 1";
+		$header_res = mysqli_query($connection,$sql_header);
+		$get_header = mysqli_fetch_assoc($header_res);
+		$header_pic = $get_header['pic'];
+
+ ?>
+
+
+<!-- Top Header-Profile -->
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="top-header">
+					<div class="top-header-thumb">
+						<?php 
+
+							if (empty($header_pic)) {?>
+								
+							<?php }else{?>
+								<img src="profile_header/<?php echo $header_pic; ?>" style="height: 400px; background-repeat: no-repeat;background-position: center;background-size: cover;" alt="nature">
+							<?php }
+
+						 ?>
+					</div>
+					<div class="profile-section">
+						<div class="row">
+							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="userprofile.php" class="active">Timeline</a>
+									</li>
+									<li>
+										<a href="about.php">About</a>
+									</li>
+									<li>
+										<a href="profilefriend.php">Friends</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="userphoto.php">Photos</a>
+									</li>
+									
+									<li>
+										<div class="more">
+											<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+											<ul class="more-dropdown more-with-triangle">
+												<li>
+													<a href="#">Report Profile</a>
+												</li>
+												<li>
+													<a href="#">Block Profile</a>
+												</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="control-block-button">
+							<a href="35-YourAccount-FriendsRequests.html" class="btn btn-control bg-blue">
+								<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control bg-purple">
+								<svg class="olymp-chat---messages-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+							</a>
+
+							<?php 
+								if (empty($header_pic)) {?>
+								<a href="#" data-toggle="modal" data-target="#update_header_photo" class="btn btn-control bg-purple">
+								   <svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+								</a>
+								<?php }else{ ?>
+							<div class="btn btn-control bg-primary more">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+
+								<ul class="more-dropdown more-with-triangle triangle-bottom-right">
+									<li>
+										<a href="#" data-toggle="modal" data-target="#update_header_photo">Update Profile Photo</a>
+									</li>
+									<li>
+										<a href="#" data-toggle="modal" data-target="#update-header-photo">Update Header Photo</a>
+									</li>
+									<li>
+										<a href="accountset1.php">Account Settings</a>
+									</li>
+									<li>
+										<a data-toggle="modal" data-target="#make_post" href="#">Make A Post</a>
+									</li>
+								</ul>
+							</div>
+							<?php }
+
+							 ?>
+						</div>
+					</div>
+					<div class="top-header-author">
+						<a href="02-ProfilePage.html" class="author-thumb">
+							<img src="profile/<?php echo $pic; ?>" alt="author">
+						</a>
+						<div class="author-content">
+							<a href="profilefriend" class="h4 author-name"><?php echo $firstname . ' ' . $lastname; ?></a>
+							<div class="country"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Top Header-Profile -->
+
+<!-- uploading profile header Modal -->
+<div id="update_header_photo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload Your Header Image</h4>
+      </div>
+      <div class="modal-body">
+      	<form action="upload_header_pic.php" enctype="multipart/form-data" method="POST">
+	        <p>Choose An Image.</p>
+	        <input type="file" class="form-control" name="file">
+	        <input type="submit" class="btn bg-blue" value="Upload" name="submit">
+    	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- uploading a post Modal -->
+<div id="make_post" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Make A Post <?php echo $username; ?></h4>
+      </div>
+      <div class="modal-body">
+      	<form id="form_submit" action="postSub.php" enctype="multipart/form-data" method="POST">
+	        <p>Choose Your Images.</p>
+	        <input type="file" class="form-control" name="photoimg[]" id="photoimg" multiple><br>
+	        <textarea name="text_post" class="form-control" placeholder=""></textarea>
+	        <input type="text" editable="false" style="display: none;" id="featured" value="" name="featured">
+	        <input type="submit" class="btn bg-blue" value="Upload" name="upload">
+
+	        <div class="form-group">
+        		<div id='imageloadstatus' class="w3-center" style='display: none;'><img src="assets/img/loader.gif" alt="Uploading...."/></div>
+        	</div>
+
+        	<div class="col-md-6" id="feat_wrap">
+        		<a href="#" id="feature" class="btn bg-blue">Feature A Buddy</a>
+        	</div>
+
+        	<div class="col-md-6 w3-hide" id="buddy_wrap">
+        		<p>Your Buddies</p>
+        		<ul class="widget w-faved-page">
+					<?php 
+
+						$query_buddies = "SELECT * FROM buddies_list WHERE user = '$username' OR buddy = '$username' AND deleted = 1";
+						$buddies_res = mysqli_query($connection,$query_buddies);
+						while ($buddies_row = mysqli_fetch_assoc($buddies_res)) {
+							if ($buddies_row['user'] == $username) {
+								$buddie = $buddies_row['buddy'];
+							}elseif ($buddies_row['buddy'] == $username) {
+								$buddie = $buddies_row['user'];
+							}
+							//getting the buddies profile pic
+							$query_pic = "SELECT * FROM profile_pic WHERE user = '$buddie' AND deleted = 1";
+							$pic_res = mysqli_query($connection,$query_pic);
+							$fetch_pic = mysqli_fetch_assoc($pic_res);?>
+
+							<li>
+								<a href="#" class="features" id="<?php echo $buddie; ?>">
+									<img src="profile/<?php echo $fetch_pic['pic']; ?>" alt="author">
+									<span><?php //echo $buddie; ?></span>
+								</a>
+							</li>
+						<?php }
+
+					 ?>
+				</ul>
+        	</div>
+    	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="">
+	$(document).ready(function(){
+		$('#photoimg').on('change', function(){ 
+		  $('#form_submit').ajaxForm({ target:'#preview',
+	        beforeSubmit:function(){
+	            $('#imageloadstatus').show();
+	        },
+	        success:function(){
+	            $('#photoimg').val('');
+	            $('#imageloadstatus').hide();
+	        },
+	        error:function(){
+	            $('#imageloadstatus').html('Images uploading failed, please try again.');
+	        }
+	    });
+	});
+
+		
+	});
+</script>
+	
+	<?php 
+
+
+
+	 ?>

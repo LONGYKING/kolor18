@@ -1,0 +1,90 @@
+<!-- Window-popup Choose from my Photo -->
+
+<div style="display: block;z-index:7000;opacity:4000%;background: rgba(0, 0, 0, 0.815)" class="modal mCustomScrollbar" id="choose-from-my-photo" tabindex="-1" role="dialog" aria-labelledby="choose-from-my-photo" aria-hidden="true">
+	<div class="modal-dialog window-popup choose-from-my-photo" role="document">
+
+		<div class="modal-content">
+			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg onclick="return close_post()" class="olymp-close-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use></svg>
+			</a>
+			<div class="modal-header">
+				<h6 class="title">Share Post</h6>
+
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-expanded="true">
+							<svg class="olymp-photos-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-photos-icon"></use></svg>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-expanded="false">
+							<svg class="olymp-albums-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-albums-icon"></use></svg>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="modal-body">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+
+							<div class="news-feed-form" >
+									
+									<form action="/post/share" method="post" enctype="multipart/form-data">
+										<input class="post_placeholder" name="argument" type="text" value="<%=post._id%>" hidden/>
+										<div class="author-thumb">
+											<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author" class="avatar" style="width:40px;height:40px;">
+										</div>
+										<div class="form-group with-icon label-floating is-empty">
+											<label class="control-label">Share what you are thinking here...</label>
+											<textarea name="Tip" class="form-control" placeholder=""></textarea>
+											<div class="">
+											<img class="image_placehoder " src="/images/post/<%=post.Media.File[0].File%>" alt="avatar" style="border-radius: 4px;">
+											<p class="text_placehoder" style="font-size:16px;font-weight:bold">
+												<%=post.postcontent[0].text%></p>
+											</div>
+										</div>
+										<div class="row" style="z-index:4000;margin-top:10px;">
+											<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+												<div class="form-group label-floating is-select">
+													<label class="control-label">share to</label>
+													<select onchange="return friends(this.value)" name="" class="form-control">
+														
+														<option value="Public">Public</option>
+														<option value="Friend">Friends</option>
+														<option value="Friends">groups</option>
+														<option value="page">pages</option>
+													</select>
+												</div>
+											</div>
+											<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+												<div class="form-group label-floating is-select">
+													<label id="lab" class="control-label">Kolor18</label>
+													<select id="sectoria" name="to_author" class="form-control">
+														
+	
+													</select>
+												</div>
+											</div>
+											<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+												
+												<button type="submit" class="btn btn-primary btn-md-2">Share now</button>
+																	
+											</div>
+										</div>
+										
+										</form>
+										</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- ... end Window-popup Choose from my Photo -->
+<% include ../partials/footer%>

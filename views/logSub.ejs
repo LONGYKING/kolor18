@@ -1,0 +1,52 @@
+<?php 
+
+	require_once('include/connection.php');
+	$error = array();
+	if ($_POST['submit']) {
+		$username = isset($_POST['username'])?trim($_POST['username']):'';
+		$password = isset($_POST['password'])?trim($_POST['password']):'';
+
+		if ($username == "" || $password == "") {
+			$error[] = urlencode('Enter Your Username Or Password');
+		}else{
+			$username = checkData($username);
+			$password = checkData($password);
+		}
+
+		if (empty($error)) {
+			$new_pass = md5($password);
+			$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$new_pass' AND deleted = 1";
+			$result = mysqli_query($connection,$sql);
+			if (mysqli_num_rows($result) > 0) {
+				while ($row = mysqli_fetch_assoc($result)) {
+					session_start();
+					$_SESSION['id'] = $row['id'];
+					$_SESSION['username'] = $row['username'];
+
+					if (isset($_SESSION['id'])) {
+						header('location: index.php');
+					}else{
+						$errors = "Please Login";
+						header('location: register.php?error='.$errors);
+					}
+				}
+			}else{
+				$faild = "Username Or Password Does Not Exist";
+				header('location: register.php?error='.$faild);
+			}
+		}else{
+			header('location: register.php?error='.join($error,urlencode('<br>')));
+		}
+
+
+	}
+
+	function checkData($data){
+		$data = trim($data);
+		$data = stripcslashes($data);
+		$data = htmlspecialchars($data);
+
+		return $data;
+	}
+
+ ?>

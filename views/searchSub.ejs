@@ -1,0 +1,46 @@
+<?php 
+	require_once('include/connection.php');
+	session_start();
+
+	function CheckDatas($data){
+		$data = trim($data);
+		$data = stripcslashes($data);
+		$data = htmlspecialchars($data);
+
+		return $data;
+	}
+
+	$error = array();
+	if (isset($_POST['search_B'])) {
+		$search = isset($_POST['search'])?trim($_POST['search']):'';
+		if (empty($search)) {
+			$error[] = urlencode('No Search Entered');
+		}else{
+			$search = CheckDatas($search);
+		}
+
+		if (empty($error)) {
+			//getting the current user
+			$username = $_SESSION['username'];
+			//search through the database table
+			$query = "SELECT * FROM buddies_list WHERE user = '$username' AND buddy LIKE '% $search %' AND deleted = 1";
+			$res = mysqli_query($connection,$query);
+			$row = mysqli_fetch_assoc($res);
+				$buddy = $row['buddy'];
+
+				header('location: search_friends.php?buddy='.$buddy);
+
+				//getting the buddies informations
+				// $sql = "SELECT * FROM users WHERE username = '$buddy' AND deleted = 1";
+				// $sql_res = mysqli_query($connection,$sql);
+				// $get = mysqli_fetch_assoc($sql_res);
+
+				// //getting the buddies profile picture
+				// $get_pic = "SELECT * FROM profile_pic WHERE user = '$buddy' AND deleted = 1";
+				// $pic_res = mysqli_query($connection,$get_pic);
+				// $pic_row = mysqli_fetch_assoc($pic_res);
+		}
+	}
+
+
+?>

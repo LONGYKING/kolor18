@@ -1,0 +1,40 @@
+<?php 
+	session_start();
+	require_once('include/connection.php');
+$username = $_SESSION['username'];
+//getting the users buddies
+$sql1 = "SELECT * FROM buddies_list WHERE user = '$username' AND deleted = 1";
+$sql1_result = mysqli_query($connection,$sql1);
+if (mysqli_num_rows($sql1_result) > 0) {
+	while ($buddie_row = mysqli_fetch_assoc($sql1_result)) {
+
+		$buddie = $buddie_row['buddy'];//getting the current user's buddies
+
+		//getting the post based on the user's buddies
+		$sql = "SELECT * FROM post WHERE user_id = '$buddie' OR user_id = '$username' AND deleted = 1 ORDER BY dates DESC";
+		$result = mysqli_query($connection,$sql);
+		$row = mysqli_fetch_assoc($result);
+		$post_id = $row['id'];//getting the post id
+		$user_pic = $row['user_pic'];
+		$post_method = $row['post_method'];
+		$posts = $row['post'];
+
+		//getting the post media
+		$sql_media = "SELECT * FROM post_articles WHERE user_id = '$username' OR user_id = '$buddie' AND post_id = '$post_id'";
+		$media_res = mysqli_query($connection,$sql_media);
+		$media_row = mysqli_fetch_assoc($media_res);
+		$media = $media_row['media'];
+		$ext = $media_row['ext'];
+
+		//getting the post likes
+		$sql_like = "SELECT * FROM likes WHERE user = '$username' AND post_id = '$post_id' AND deleted = 1";
+		$like_result = mysqli_query($connection,$sql_like);
+		$get_likes = mysqli_fetch_assoc($like_result);
+		$count_likes = mysqli_num_rows($like_result);
+		//echo $count_likes;
+		if(mysqli_num_rows($result) > 0){
+
+		}
+	}
+}
+?>

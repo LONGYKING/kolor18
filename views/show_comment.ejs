@@ -1,0 +1,61 @@
+<?php 
+	//getting the total comments for a particular post
+	session_start();
+	require_once('include/connection.php');
+	$output = '';
+	if (isset($_POST['get_comment'])) {
+		$post_id = $_POST['get_comment'];
+
+		$query = "SELECT * FROM comments WHERE post_id = '$post_id' AND deleted = 1";
+		$result = mysqli_query($connection,$query);
+
+		while ($row = mysqli_fetch_assoc($result)) {
+			$users = $row['user_id'];
+			$com_id = $row['id'];
+
+			//getting users and their profile pictures
+			$sql = "SELECT * FROM profile_pic WHERE user = '$users' AND deleted = 1";
+			$res = mysqli_query($connection,$sql);
+			$get_pic = mysqli_fetch_assoc($res);
+			$pic = $get_pic['pic'];
+
+			//getting the replies for a particular comment
+			$sql_replies = "SELECT * FROM com_replies WHERE comment_id = '$com_id' AND deleted = 1";
+			$replie_res = mysqli_query($connection,$sql_replies);
+			$replies_row = mysqli_fetch_assoc($replie_res);
+
+			if ($users == $_SESSION['username']) {	
+
+				$output .= '<div class="w3-row w3-hide-small w3-hide-medium">
+								<p style ="font-size:12px;"><img style="width:40px;height:40px;" class ="w3-circle" src="profile/'.$pic.'"> You Commented On This</p>
+								<p style ="font-size:11px;">'.$row["comment"].'</p>
+							</div>
+							<hr>';
+
+			}else{
+				$output .= '<div class="w3-row">
+								<p style ="font-size:12px;"><img style="width:40px;height:40px;" class ="w3-circle" src="profile/'.$pic.'">'.$users.'Commented On This</p>
+								<p style ="font-size:13px;">'.$row["comment"].'</p>
+							</div>
+							<hr />';
+			}
+			
+
+		 }
+
+		 echo $output;
+	}
+	
+
+ ?>
+
+ <script type="" lang="javascript">
+	 	function myFunction(id) {
+	    var x = document.getElementById(id);
+	    if (x.className.indexOf("w3-show") == -1) {
+	        x.className += " w3-show";
+	    } else { 
+	        x.className = x.className.replace(" w3-show", "");
+	    }
+	}
+ </script>

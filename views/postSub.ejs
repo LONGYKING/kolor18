@@ -1,0 +1,87 @@
+<?php 
+	session_start();
+require_once('include/connection.php');
+$path = "posts/";
+$username = $_SESSION['username'];
+
+function checkdatas($datas){
+	$datas = trim($datas);
+	$datas = stripslashes($datas);
+	$datas = htmlspecialchars($datas);
+	return $datas;
+}
+
+
+if(isset($_POST['upload']))
+
+{
+	$post_content = isset($_POST['text_post'])?trim($_POST['text_post']):'';
+	$featured = isset($_POST['featured'])?trim($_POST['featured']):'';
+	if (empty($post_content)) {
+		echo "Enter The Post Content";
+	}else{
+		$post_content = checkdatas($post_content);
+	}
+
+	if (empty($featured)) {
+		
+	}
+
+	$valid_formats = array('jpg','jpeg','png','PNG','JPG','JPEG','mp4','GIF','gif','MP4','3gp','HD','AVI','FLV','MOV','Ogg','AMV');
+
+	//getting the users profile picture
+	$querys = "SELECT * FROM profile_pic WHERE user = '$username'";
+	$result1 = mysqli_query($connection,$querys);
+	$row = mysqli_fetch_assoc($result1);
+	$pics = $row['pic'];
+
+	//adding the post content
+	$query = "INSERT INTO post (user_id,post,user_pic,post_method)VALUES('$username','$post_content','$pics','post')";
+	$result = mysqli_query($connection,$query);
+
+	for($i=0;$i<count($_FILES["photoimg"]["name"]);$i++)
+
+	{
+
+		$uploadfile=$_FILES["photoimg"]["tmp_name"][$i];
+
+		$folder="posts/";
+		$file_name = basename($_FILES['photoimg']['name'][$i]);
+	    $targetFilePath = $folder . $file_name;
+	    $file_type = pathinfo($targetFilePath,PATHINFO_EXTENSION);
+		if (in_array($file_type, $valid_formats)) {
+		if(move_uploaded_file($_FILES["photoimg"]["tmp_name"][$i], "$folder".$_FILES["photoimg"]["name"][$i])){
+
+				//getting the post id
+				$sql_id = "SELECT * FROM post WHERE post = '$post_content' AND deleted = 1";
+				$sql_res = mysqli_query($connection,$sql_id);
+				$get_post_id = mysqli_fetch_assoc($sql_res);
+				$post_id = $get_post_id['id'];
+
+				if (empty($featured)) {
+		
+				}else{
+					//adding the featured buddy
+					$sql_buddy = "INSERT INTO features_tbl(featured,featuring,post_id)VALUES('$featured','$username','$post_id')";
+					$buddy_res = mysqli_query($connection,$sql_buddy);
+				}
+
+				if ($sql_res) {
+				//adding the post content media
+				$sql = "INSERT INTO post_articles(user_id,post_id,media,ext)VALUES('$username','$post_id','$file_name','$file_type')";
+				$res = mysqli_query($connection,$sql);
+				header('location: userprofile.php?good'.$post_id);
+				//echo "<img src='posts/".$_FILES["photoimg"]["name"][$i]."'  class='preview'>";
+				}else{
+					//no post id available
+					$no_id = "Post Not Available";
+					header('location: userprofile.php?error='.$no_id);
+				}
+			}
+	   }
+	}
+
+	exit();
+
+}
+?>

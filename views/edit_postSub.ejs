@@ -1,0 +1,68 @@
+<?php 
+
+	session_start();
+	require_once('include/connection.php');
+	$error = array();
+	if (isset($_POST['editSub'])) {
+		$post = isset($_POST['post'])?trim($_POST['post']):'';
+		$post_id = isset($_POST['post_id'])?trim($_POST['post_id']):'';
+
+		$fileName = $_FILES['file']['name'];
+		$fileTmp = $_FILES['file']['tmp_name'];
+		$fileSize = $_FILES['file']['size'];
+		$fileError = $_FILES['file']['error'];
+		$fileType = $_FILES['file']['type'];
+
+		$fileExt = explode('.', $fileName);
+		$fileActualExt = strtolower(end($fileExt));
+
+		$allow = array('jpg','jpeg','png','gif','JPG','JPEG','PNG');
+
+		if (in_array($fileActualExt, $allow)) {
+			if ($fileError === 0) {
+				if ($fileSize < 300000 ) {
+					$pic = uniqid('',true).'.'.$fileActualExt;
+					$fileDestination = 'posts/'.$pic;
+					if (file_exists($pic)) {
+						$error[] = urlencode('File Already Exist');
+					}else{
+						move_uploaded_file($fileTmp, $fileDestination);
+					}
+				}else{
+					$error[] = urlencode('your file is too big');
+				}
+				
+			}else{
+				$error[] = urlencode('there was an error uploading this file');
+			}
+		}else{
+			$error[] = urlencode("you cannot upload files of this type");
+		}
+
+		if (empty($error)) {
+			//getting the current username
+			$username = $_SESSION['username'];
+
+			//updating the details
+			$sql = "UPDATE `post` SET `post` = '$post', deleted = 1 WHERE `id` = '$post_id'";
+			$result = mysqli_query($connection,$sql);
+
+			$sql1 = "UPDATE `post_articles` SET `media` = '$pic' WHERE `post_id` = '$post_id'";
+			$result1 = mysqli_query($connection,$sql1);
+
+			if ($result) {
+				$success = "Post Edited Successfully";
+				header('location: userprofile.php?success='.$success);
+			}else{
+				$failed = "Error Creating Page";
+				header('location: userprofile.php?error='.$failed);
+			}
+
+		}else{
+			header('location: userprofile.php?error='.join($error,urlencode('<br>')));
+	}
+}
+
+
+
+ ?>

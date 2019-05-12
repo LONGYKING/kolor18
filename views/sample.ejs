@@ -1,0 +1,46 @@
+<?php
+if (isset($_POST['shares_btn'])) {
+		
+		$post_id = $_POST['shares_btn'];//getting the post id
+
+		$content = isset($_POST['share-content'])?trim($_POST['share-content']):'';
+		$content = CheckDatas($_POST['share-content']);
+		$username = $_SESSION['username'];
+
+		//checking if the user has shared the post before
+		$query = "SELECT * FROM shared_tbl WHERE user_id = '$username' AND post_id = '$post_id' AND deleted = 1";
+		$result = mysqli_query($connection,$query);
+
+		if (mysqli_num_rows($result) > 0) {
+			echo "Shared Already";
+		}else{
+			//try adding the users share
+			$sql = "INSERT INTO shared_tbl(user_id,content,post_id)VALUES('$username','$content','$post_id')";
+			$sql_result = mysqli_query($connection,$sql);
+
+			//try adding the shares to the post firstly we get the content of the post and the articles
+			$query_post = "SELECT * FROM post WHERE id = '$post_id' AND deleted = 1";
+			$post_result = mysqli_query($connection,$query_post);
+			$post_row = mysqli_fetch_assoc($post_result);
+			$post_owner = $post_row['user_id'];
+			$post_con = $post_row['post'];
+			$post_user_pic = $post_row['user_pic'];
+
+			//getting the post articles
+			$query_article = "SELECT * FROM post_articles WHERE post_id = '$post_id'";
+			$article_result = mysqli_query($connection,$query_article);
+
+
+			if ($sql_result) {
+				//try getting the number of shares
+				$query_share = "SELECT * FROM shared_tbl WHERE post_id = '$post_id' AND deleted = 1";
+				$share_result = mysqli_query($connection,$query_share);
+				$count_share = mysqli_num_rows($share_result);
+				echo $count_share;
+			}else{
+				echo mysqli_error($connection);
+			}
+		}
+		
+	}
+		?>

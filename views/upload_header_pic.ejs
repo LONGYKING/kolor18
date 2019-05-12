@@ -1,0 +1,61 @@
+<?php 
+	// adding events into the system
+session_start();
+	require_once('include/connection.php');
+	$error = array();
+	if (isset($_POST['submit'])) {
+
+		$fileName = $_FILES['file']['name'];
+		$fileTmp = $_FILES['file']['tmp_name'];
+		$fileSize = $_FILES['file']['size'];
+		$fileError = $_FILES['file']['error'];
+		$fileType = $_FILES['file']['type'];
+
+		$fileExt = explode('.', $fileName);
+		$fileActualExt = strtolower(end($fileExt));
+
+		$allow = array('jpg','jpeg','png','gif');
+
+		if (in_array($fileActualExt, $allow)) {
+			if ($fileError === 0) {
+				if ($fileSize < 300000 ) {
+					$pic = uniqid('',true).'.'.$fileActualExt;
+					$fileDestination = 'profile_header/'.$pic;
+					move_uploaded_file($fileTmp, $fileDestination);
+				}else{
+					echo 'your file is too big';
+				}
+				
+			}else{
+				echo 'there was an error uploading this file';
+			}
+		}else{
+			echo "you cannot upload files of this type";
+		}
+
+		if (empty($error)) {
+			$user = $_SESSION['username'];
+			$query = "INSERT INTO profile_header_pic(user_id,pic)VALUES('$user','$pic')";
+			$result = mysqli_query($connection,$query);
+
+			//getting the users buddies so that the notification will be sent across them
+			// $sql = "SELECT * FROM buddies_list WHERE user = '$user' AND deleted = 1";
+			// $res = mysqli_query($connection,$sql);
+			// while ($row = mysqli_fetch_assoc($res)) {
+			// 	$buddies = $row['buddy'];
+
+				
+			// }
+			if ($result) {
+				header('location: userprofile.php');
+			}else{?>
+				<script type="">
+					alert('error inserting your details');
+				</script>
+			<?php echo mysqli_error($connection); }
+		}else{
+			header('location: userprofile.php?errors='.join($error,urlencode('<br>')));
+		}
+	}
+
+?>

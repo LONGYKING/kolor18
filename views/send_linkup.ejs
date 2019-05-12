@@ -1,0 +1,30 @@
+<?php 
+
+	session_start();
+	require_once('include/connection.php');
+	$output = '';
+	if (isset($_POST['link'])) {
+		$reciever = $_POST['link'];
+		$username = $_SESSION['username'];//getting the current user
+
+		//checking if the current user has already sent a request to de user before
+		$check_sql = "SELECT * FROM reques_table WHERE sender = '$username' AND reciever = '$reciever' AND deleted = 1";
+		$check_result = mysqli_query($connection,$check_sql);
+
+		if (mysqli_num_rows($check_result) == 1) {
+			echo "Link Up Sent Already";
+		}else{
+		$sql = "INSERT INTO reques_table(sender,reciever)VALUES('$username','$reciever')";
+		$result = mysqli_query($connection,$sql);
+		if ($result) {
+			//adding to the notifications
+			$sql_notify = "INSERT INTO notification(user_id,notifier,type,type1,notify_id)VALUES('$username','$reciever','link_up','link_up','$username')";
+			$notify_res = mysqli_query($connection,$sql_notify);
+			echo "Sent";
+		}
+		
+		}
+	}
+
+
+ ?>

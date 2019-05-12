@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="index, follow">
+		<title>Social Network</title>
+
+    <!-- Stylesheets -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/ionicons.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="">
+	</head>
+	<body>
+    
+    <!-- REGISTERATION PAGE
+    ================================================= -->
+    <div id="lp-register">
+    	<div class="container wrapper" style="background: #fff;color : #333;">
+        <div class="row">
+        	<div class="col-sm-5">
+            <div class="intro-texts">
+            	<h1 class="text-black">Make Cool Friends !!!</h1>
+              <p style="color : #333;"><p class="text-muted">Change your account number</p>
+                  
+              <!--Login Form-->
+              <form name="Login_form" action="/login" id='Login_form' method="post">
+                 <div class="row">
+                  <div class="form-group col-xs-12">
+                    <label for="my-email" class="sr-only">Change verification number</label>
+                    <input id="my-email" class="form-control input-group-lg" type="text" name="vericode" title="Enter Email" placeholder="Your new number"/>
+                  </div>
+                </div>
+                <button type="submit" class="butle">Continue</button>
+              </form><!--Login Form Ends--> </p>
+            </div>
+          </div>
+        	<div class="col-sm-6 col-sm-offset-1">
+            <div style="" class="reg-form-container"> 
+              
+              <!--Registration Form Contents-->
+              <div class="tab-content">
+                <!--Login-->
+                <div class="tab-pane" id="login" style="display: block">
+                  <h3>Account Verification</h3>
+                  <p class="text-muted">verify your account</p>
+                  
+                  <!--Login Form-->
+                  <form name="Login_form" action="/login" id='Login_form' method="post">
+                     <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-email" class="sr-only">Enter verification code</label>
+                        <input id="my-email" class="form-control input-group-lg" type="text" name="vericode" title="Enter Email" placeholder="Your code"/>
+                      </div>
+                    </div>
+                    <button type="submit" class="butle">Continue</button>
+                  </form><!--Login Form Ends--> 
+                  <p>did'nt get any message <a href="#">Resend Code !</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-6">
+          
+            <!--Social Icons-->
+            <ul class="list-inline social-icons">
+              <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts
+    ================================================= -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.appear.min.js"></script>
+		<script src="js/jquery.incremental-counter.js"></script>
+    <script src="js/script.js"></script>
+    
+	</body>
+</html>

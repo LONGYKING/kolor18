@@ -1,0 +1,28 @@
+<?php 
+	session_start();
+	require_once('include/connection.php');
+
+	if (isset($_POST['user_id'])) {
+		$user_id = $_POST['user_id'];
+		$username = $_SESSION['username'];
+
+		//check if the user have been accepted before
+		$sql = "SELECT * FROM buddies_list WHERE user = '$username' AND buddy = '$user_id' AND deleted = 1";
+		$result = mysqli_query($connection,$sql);
+		if (mysqli_num_rows($result) !== 1) {
+			$query = "INSERT INTO buddies_list(user,buddy)VALUES('$username','$user_id')";
+			$execute  = mysqli_query($connection,$query);
+
+			//update the request table
+			$update = "UPDATE `reques_table` SET `status`= 1 WHERE `sender` = '$user_id' AND `reciever` = '$username'";
+			$update_result = mysqli_query($connection,$update);
+
+			if ($execute) {
+				echo "Link up Accepted";
+			}
+		}else{
+			echo "Link Up Accepted Already";
+		}
+	}
+
+ ?>

@@ -1,0 +1,150 @@
+<% include partials/head%>
+<div class="header-spacer header-spacer-small"></div>
+
+<!-- Main Header Account -->
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+					<h1>Your Account Dashboard</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae natus saepe qui provident ex animi rerum tempora possimus soluta accusantium incidunt at quidem voluptatem error, nulla aliquam perspiciatis!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img class="img-bottom" src="img/account-bottom.png" alt="friends">
+</div>
+
+<!-- ... end Main Header Account -->
+
+
+
+<!-- Your Account Personal Information -->
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Hobbies and Interests</h6>
+				</div>
+				<div class="ui-block-content">
+
+					
+					<!-- Form Hobbies and Interests -->
+					
+					<form action="/users/update" method="post">
+						<div class="row">
+					
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">Hobbies</label>
+									<textarea name="Hobbies" class="form-control" placeholder=""  ><%=Hobbies%>
+													</textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite TV Shows</label>
+									<textarea name="Favourite_TV_Shows" class="form-control" placeholder=""  ><%=Favourite_TV_Shows%></textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite Movies</label>
+									<textarea name="Favourite_Movies" class="form-control" placeholder=""  ><%=Favourite_Movies%></textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite Games</label>
+									<textarea name="Favourite_Games" class="form-control" placeholder=""  ><%=Favourite_Games%> </textarea>
+								</div>
+					
+								<button class="btn btn-secondary btn-lg full-width">Cancel</button>
+							</div>
+					
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite Music Bands / Artists</label>
+									<textarea name="Favourite_Bands" class="form-control" placeholder=""  ><%=Favourite_Bands%></textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite Books</label>
+									<textarea name="Favourite_Books" class="form-control" placeholder=""  ><%=Favourite_Books%></textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Favourite Writers</label>
+									<textarea name="Favourite_Writers" class="form-control" placeholder=""  ><%=Favourite_Writers%></textarea>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Other Interests</label>
+									<textarea name="Other_Interests" class="form-control" placeholder=""  ><%=Other_Interests%></textarea>
+								</div>
+					
+								<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
+							</div>
+					
+						</div>
+					</form>
+					
+					<!-- ... end Form Hobbies and Interests -->
+
+				</div>
+			</div>
+		</div>
+
+		<div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12  responsive-display-none">
+			<div class="ui-block">
+
+				
+				
+				<!-- Your Profile  -->
+				
+				<div class="your-profile">
+					<div class="ui-block-title ui-block-title-small">
+						<h6 class="title">Your PROFILE</h6>
+					</div>
+				
+					<div id="accordion" role="tablist" aria-multiselectable="true">
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<h6 class="mb-0">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										Profile Settings
+										<svg class="olymp-dropdown-arrow-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+									</a>
+								</h6>
+							</div>
+				
+							<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+								<ul class="your-profile-menu">
+									<li>
+										<a href="/users/pinfo">Personal Information</a>
+									</li>
+									<li>
+										<a href="/users/setup_account">Account Settings</a>
+									</li>
+									<li>
+										<a href="/users/setup_security">Change Password</a>
+									</li>
+									<li>
+										<a href="/users/hoppies">Hobbies and Interests</a>
+									</li>
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- ... end Your Profile  -->
+				
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Your Account Personal Information -->
+
+
+
+<% include partials/footer%>

@@ -1,0 +1,139 @@
+<% include partials/head%>
+
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer header-spacer-small"></div>
+
+<!-- Main Header Account -->
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+					<h1>Your Account Dashboard</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate eligendi illo magnam ab possimus nostrum asperiores saepe corporis, veniam autem qui et.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img class="img-bottom" src="img/account-bottom.png" alt="friends">
+</div>
+
+<!-- ... end Main Header Account -->
+
+<!-- Your Account Personal Information -->
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Friend Requests</h6>
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+				</div>
+
+				
+				<!-- Notification List Frien Requests -->
+				
+				<ul class="notification-list friend-requests">
+						<%
+						for (const [key, value] of Object.entries(request)) {
+						%>
+					<li>
+						<div class="author-thumb">
+							<img src="/images/users_profile_pictures/<%=value.users.avatar%>" alt="author" class="avatar" style="width:40px;height:40px;">
+						</div>
+						<div class="notification-event">
+							<a href="#" class="h6 notification-friend"><%=value.users.firstname%> <%=value.users.lastname%></a>
+							<span class="chat-message-item">Mutual Friend: Sarah Hetfield</span>
+						</div>
+						<span class="notification-icon">
+											<a href="/request/Connect/<%=value.relations._id%>" class="accept-request">
+												<span class="icon-add">
+													<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+												</span>
+												Accept Friend Request
+											</a>
+				
+											<a href="#" class="accept-request request-del">
+												<span class="icon-minus">
+													<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+												</span>
+											</a>
+				
+										</span>
+				
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<svg class="olymp-little-delete"><use xlink:href="svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
+						</div>
+					</li>
+					<%
+					}
+					%>
+				
+					<li class="accepted">
+						<div class="author-thumb">
+							<img src="/images/img/avatar1-sm.jpg" alt="author">
+						</div>
+						<div class="notification-event">
+							You and <a href="#" class="h6 notification-friend">Mary Jane Stark</a> just became friends. Write on <a href="#" class="notification-link">his wall</a>.
+						</div>
+						<span class="notification-icon">
+											<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+										</span>
+				
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+							<svg class="olymp-little-delete"><use xlink:href="svg-icons/sprites/icons.svg#olymp-little-delete"></use></svg>
+						</div>
+					</li>
+				
+				</ul>
+				
+				<!-- ... end Notification List Frien Requests -->
+			</div>
+
+		</div>
+
+		<div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12  responsive-display-none">
+			<div class="ui-block">
+
+				
+				
+				<!-- Your Profile  -->
+				
+				<div class="your-profile">
+					<div class="ui-block-title ui-block-title-small">
+						<h6 class="title">NOTIFICATIONS</h6>
+					</div>
+				
+					<div class="ui-block-title">
+						<a href="notif.php" class="h6 title">Notifications</a>
+						<a href="#" class="items-round-little bg-primary">8</a>
+					</div>
+					<div class="ui-block-title">
+						<a href="chatmsg.php" class="h6 title">Chat / Messages</a>
+					</div>
+					<div class="ui-block-title">
+						<a href="friendreq.php" class="h6 title">Friend Requests</a>
+						<a href="#" class="items-round-little bg-blue">4</a>
+					</div>
+
+				</div>
+				
+				<!-- ... end Your Profile  -->
+				
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Your Account Personal Information -->
+
+
+
+
+<% include partials/footer%>

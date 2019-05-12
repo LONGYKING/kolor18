@@ -1,0 +1,28 @@
+<?php 
+	//php file that gets the number and names of buddies that liked your post
+	session_start();
+	require_once('include/connection.php');
+	$output = '';
+	if (isset($_POST['get_liked'])) {
+		$post_id = $_POST['get_liked'];
+
+		//select the user from database
+		$sql = "SELECT * FROM likes WHERE post_id = '$post_id' AND deleted = 1";
+		$res = mysqli_query($connection,$sql);
+		while ($row = mysqli_fetch_assoc($res)) {
+			$users = $row['user'];
+
+			//getting the users profile picture
+			$sql_pic = "SELECT * FROM profile_pic WHERE user = '$users' AND deleted = 1";
+			$res_pic = mysqli_query($connection,$sql_pic);
+			$pic_row = mysqli_fetch_assoc($res_pic);
+
+			$output .='<li class="w3-padding-hor-16">
+						 <img src="profile/'.$pic_row['pic'].'" class="w3-left w3-circle w3-margin-right" style="width:40px;height:40px;">
+						 <span style="text-transform:capitalize;" class="w3-xlarge"><a style="font-size:13px;" href="buddies_profile.php?user='.$users.'">'.$users.'</a></span><br>
+						</li>';
+		}
+
+		echo $output;
+	}
+ ?>

@@ -1,0 +1,122 @@
+<?php 
+		//getting the information of the user the current user just clicked his/her profile
+		if (isset($_GET['user'])) {
+			$buddy = $_GET['user'];
+		}elseif (isset($_GET['buddies'])) {
+			$buddy = $_GET['buddies'];
+		}
+		//$username = $_SESSION['username'];
+
+		//getting the users information
+		$sql = "SELECT * FROM users WHERE username = '$buddy' AND deleted = 1";
+		$res = mysqli_query($connection,$sql);
+		$row = mysqli_fetch_assoc($res);
+		$username = $row['username'];
+		$firstname = $row['firstname'];
+		$lastname = $row['lastname'];
+		$likes = $row['likes'];
+		$bio = $row['bio'];
+
+		//getting the users profile picture
+		$query = "SELECT * FROM profile_pic WHERE user = '$buddy' AND deleted = 1";
+		$result = mysqli_query($connection,$query);
+		$get_pic = mysqli_fetch_assoc($result);
+		$pic = $get_pic['pic'];
+
+		//getting the total number of friends the user has
+		$query_buddies = "SELECT * FROM buddies_list WHERE user = '$buddy' AND deleted = 1";
+		$buddies_res = mysqli_query($connection,$query_buddies);
+
+ ?>
+
+
+<!-- Top Header-Profile -->
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="top-header">
+					<div class="top-header-thumb">
+						<img src="profile/<?php echo $pic; ?>" style="height: 400px; background-repeat: no-repeat;background-position: center;background-size: cover;" alt="nature">
+					</div>
+					<div class="profile-section">
+						<div class="row">
+							<div class="col col-lg-5 col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="buddies_profile.php?user=<?php echo $buddy; ?>" class="active">Timeline</a>
+									</li>
+									<li>
+										<a href="about.php">About</a>
+									</li>
+									<li>
+										<a href="buddies_friend.php?user=<?php echo $buddy; ?>">Friends <i class="w3-badge w3-blue"><?php echo mysqli_num_rows($buddies_res); ?></i></a>
+									</li>
+								</ul>
+							</div>
+							<div class="col col-lg-5 ml-auto col-md-5 col-sm-12 col-12">
+								<ul class="profile-menu">
+									<li>
+										<a href="userphoto.php">Photos</a>
+									</li>
+									
+									<li>
+										<div class="more">
+											<svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg>
+											<ul class="more-dropdown more-with-triangle">
+												<li>
+													<a href="#">Report Profile</a>
+												</li>
+												<li>
+													<a href="#">Block Profile</a>
+												</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="control-block-button">
+							<a href="#" name="link" id="<?php echo $buddy; ?>" class="btn btn-control bg-blue link_up">
+								<svg class="olymp-happy-face-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-happy-face-icon"></use></svg>
+							</a>
+
+							<a href="#" class="btn btn-control bg-purple">
+								<svg class="olymp-chat---messages-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-chat---messages-icon"></use></svg>
+							</a>
+
+							<!-- <div class="btn btn-control bg-primary more">
+								<svg class="olymp-settings-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-settings-icon"></use></svg>
+
+								<ul class="more-dropdown more-with-triangle triangle-bottom-right">
+									<li>
+										<a href="#" data-toggle="modal" data-target="#update-header-photo">Update Profile Photo</a>
+									</li>
+									<li>
+										<a href="#" data-toggle="modal" data-target="#update-header-photo">Update Header Photo</a>
+									</li>
+									<li>
+										<a href="accountset1.php">Account Settings</a>
+									</li>
+								</ul>
+							</div> -->
+						</div>
+					</div>
+					<div class="top-header-author">
+						<a href="02-ProfilePage.html" class="author-thumb">
+							<img src="profile/<?php echo $pic; ?>" alt="author">
+						</a>
+						<div class="author-content">
+							<a style="text-transform: capitalize;" href="profilefriend" class="h4 author-name"><?php echo $firstname . ' ' . $lastname; ?></a>
+							<div class="country"><?php $row['location']; ?></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Top Header-Profile -->

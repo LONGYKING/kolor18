@@ -1,0 +1,28 @@
+<?php 
+	//this file is responsible for updating the header image
+	require_once('include/connection.php');
+	session_start();
+
+	$error = array();
+	if (isset($_POST['confirm'])) {
+		$optionsRadios = isset($_POST['optionsRadios'])?trim($_POST['optionsRadios']):'';
+		$img = isset($_POST['img'])?trim($_POST['img']):'';
+
+		if (empty($optionsRadios)) {
+			$error[] = urlencode('Please Select An Image');
+		}
+
+		if (empty($error)) {
+			$username = $_SESSION['username'];
+			//updating the header image
+			$sql = "UPDATE `profile_header_pic` SET `pic` = '$img' WHERE `id` = '$optionsRadios' AND `deleted` = 1";
+			$res = mysqli_query($connection,$sql);
+			if ($res) {
+				
+				$success = "Updated Successfully";
+				header('location:userprofile.php?success='.$success);
+			}
+		}
+	}
+
+ ?>

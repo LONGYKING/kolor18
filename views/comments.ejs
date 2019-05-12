@@ -1,0 +1,26 @@
+<?php
+	//adding users comment in the system
+	session_start(); 
+	require_once('include/connection.php');
+
+	if (isset($_POST['text_com']) && isset($_POST['post_id'])) {
+		$text = $_POST['text_com'];
+		$pst_id = $_POST['post_id'];
+		//$owner = $_POST['owner'];
+
+		$username = $_SESSION['username'];
+
+		//add the comments
+		$sql = "INSERT INTO comments(user_id,post_id,comment)VALUES('$username','$pst_id','$text')";
+		$result = mysqli_query($connection,$sql);
+
+		//adding the notifications
+		// $sql_noti = "INSERT INTO notification(user_id,notifier,type,type1,notify_id)VALUES('$username','$owner','comment','post','$pst_id')";
+		// $noti_res = mysqli_query($connection,$sql_noti);
+
+		//get the total number of comments
+		$query = "SELECT * FROM comments WHERE post_id = '$pst_id' AND deleted = 1";
+		$res = mysqli_query($connection,$query);
+		echo mysqli_num_rows($res);
+	}
+ ?>

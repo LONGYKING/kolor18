@@ -1,0 +1,247 @@
+<% include partials/head%>
+
+
+<!-- ... end Responsive Header-BP -->
+<div class="header-spacer header-spacer-small"></div>
+
+<!-- Main Header Account -->
+
+<div class="main-header">
+	<div class="content-bg-wrap bg-account"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+				<div class="main-header-content">
+					<h1>Your Account Setup</h1>
+					<p>Update your profile Details so your friends would learn more about you!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img class="img-bottom" src="/images/img/account-bottom.png" alt="friends">
+</div>
+
+<!-- ... end Main Header Account -->
+
+
+
+<!-- Your Account Personal Information -->
+
+<div class="container">
+	<div class="row">
+		<div class="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+			<div class="ui-block">
+				<div class="ui-block-title">
+					<h6 class="title">Personal Information</h6>
+				</div>
+				<div class="ui-block-content">
+
+					
+					<!-- Personal Information Form  -->
+					
+					<form action="/users/update" method="post">
+						<div class="row">
+					
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">First Name</label>
+									<input name="firstname" class="form-control" placeholder="" type="text" value="<%=firstname%>">
+								</div>
+					
+								<div class="form-group label-floating">
+									<label class="control-label">Your Email</label>
+									<input name="Email" class="form-control" placeholder="" type="email" value="<%=Email%>" disabled>
+								</div>
+					
+								<div class="form-group date-time-picker label-floating">
+									<label class="control-label">Your Birthday</label>
+									<input name="Dob" value="<%=Dob%>" />
+									<span class="input-group-addon">
+															<svg class="olymp-month-calendar-icon icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-month-calendar-icon"></use></svg>
+														</span>
+								</div>
+							</div>
+					
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">Last Name</label>
+									<input name="lastname" class="form-control" placeholder="" type="text" value="<%=lastname%>">
+								</div>
+					
+								<div class="form-group label-floating">
+									<label class="control-label">Your Website</label>
+									<input name="Website" class="form-control" placeholder="" type="text" value="<%=Website%>">
+								</div>
+					
+					
+								<div class="form-group label-floating">
+									<label class="control-label">Your Phone Number</label>
+									<input name="Phone" class="form-control" placeholder="" value="<%=Phone%>" type="text">
+								</div>
+							</div>
+					
+							<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+								<div class="form-group label-floating is-select">
+									<label class="control-label">Your Country</label>
+									<select name="Country" class="selectpicker form-control">
+										<option value="<%=Country%>"><%=Country%></option>
+										<option value="United States">United States</option>
+										<option value="Australia">Australia</option>
+									</select>
+								</div>
+							</div>
+							<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+								<div class="form-group label-floating is-select">
+									<label class="control-label">Your State / Province</label>
+									<select name="Province" class="selectpicker form-control">
+										<option value="<%=Province%>"><%=Province%></option>
+										<option value="California">California</option>
+										<option value="Texas">Texas</option>
+									</select>
+								</div>
+							</div>
+							<div class="col col-lg-4 col-md-4 col-sm-12 col-12">
+								<div class="form-group label-floating is-select">
+									<label class="control-label">Your City</label>
+									<select name="City" class="selectpicker form-control">
+										<option value="<%=City%>"><%=City%></option>
+										<option value="San Francisco">San Francisco</option>
+										<option value="New York">New York</option>
+									</select>
+								</div>
+							</div>
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">Write a little description about you</label>
+									<textarea name="About" class="form-control" placeholder=""><%=About%></textarea>
+								</div>
+					
+								<div class="form-group label-floating is-select">
+									<label class="control-label">Your Gender</label>
+									<select name="Gender" class="selectpicker form-control">
+										<option value="<%=Gender%>"><%=Gender%></option>
+										<option value="Male">Male</option>
+										<option value="Female">Female</option>
+									</select>
+								</div>
+					
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Religious Belifs</label>
+									<input name="Belifs" class="form-control" placeholder="" type="text" value="<%=Belifs%>">
+								</div>
+							</div>
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<div class="form-group label-floating">
+									<label class="control-label">Your Birthplace</label>
+									<input name="Birthplace" class="form-control" placeholder="" type="text" value="<%=Birthplace%>">
+								</div>
+					
+								<div class="form-group label-floating">
+									<label class="control-label">Your Occupation</label>
+									<input name="Occupation" class="form-control" placeholder="" type="text" value="<%=Occupation%>">
+								</div>
+					
+								<div class="form-group label-floating is-select">
+									<label class="control-label">Status</label>
+									<select name="Status" class="selectpicker form-control">
+										<option value="<%=Status%>"><%=Status%></option>
+										<option value="Married">Married</option>
+										<option value="Not Married">Not Married</option>
+									</select>
+								</div>
+					
+								<div class="form-group label-floating">
+									<label class="control-label">Political Incline</label>
+									<input name="Political" class="form-control" placeholder="" type="text" value="<%=Political%>">
+								</div>
+							</div>
+							<div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="form-group with-icon label-floating">
+									<label class="control-label">Your Facebook Account</label>
+									<input name="Facebook_Account" class="form-control" type="text" value="<%=Facebook_Account%>">
+									<i class="fab fa-facebook-f c-facebook" aria-hidden="true"></i>
+								</div>
+								<div class="form-group with-icon label-floating">
+									<label class="control-label">Your Twitter Account</label>
+									<input name="Twitter_Account" class="form-control" type="text" value="<%=Twitter_Account%>">
+									<i class="fab fa-twitter c-twitter" aria-hidden="true"></i>
+								</div>
+								<div class="form-group with-icon label-floating">
+									<label class="control-label">Your RSS Feed Account</label>
+									<input name="RSS" class="form-control" type="text" value="<%=RSS%>">
+									<i class="fa fa-rss c-rss" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
+							</div>
+							<div class="col col-lg-6 col-md-6 col-sm-12 col-12">
+								<button class="btn btn-primary btn-lg full-width" type="submit">Save all Changes</button>
+							</div>
+					
+						</div>
+					</form>
+					
+					<!-- ... end Personal Information Form  -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 order-md-2 col-sm-12  responsive-display-none">
+			<div class="ui-block">
+
+				
+				
+				<!-- Your Profile  -->
+				
+				<div class="your-profile">
+					<div class="ui-block-title ui-block-title-small">
+						<h6 class="title">Your PROFILE</h6>
+					</div>
+				
+					<div id="accordion" role="tablist" aria-multiselectable="true">
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<h6 class="mb-0">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										Profile Settings
+										<svg class="olymp-dropdown-arrow-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+									</a>
+								</h6>
+							</div>
+				
+							<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+								<ul class="your-profile-menu">
+									<li>
+										<a href="/users/pinfo">Personal Information</a>
+									</li>
+									<li>
+										<a href="/users/setup_account">Account Settings</a>
+									</li>
+									<li>
+										<a href="/users/setup_security">Change Password</a>
+									</li>
+									<li>
+										<a href="/users/hoppies">Hobbies and Interests</a>
+									</li>
+									
+								</ul> 
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- ... end Your Profile  -->
+				
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Your Account Personal Information -->
+
+
+
+
+<% include partials/footer%>

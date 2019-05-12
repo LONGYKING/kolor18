@@ -1,0 +1,35 @@
+<?php 
+	session_start();
+	require_once('include/connection.php');
+	if (isset($_POST['like']) && isset($_POST['owner'])) {
+		$username = $_SESSION['username'];//getting the current user's username
+		$post_id = $_POST['like'];
+		$owner = $_POST['owner'];
+
+		//checking if the user has liked the post before
+		$sql = "SELECT * FROM likes WHERE user = '$username' AND post_id = '$post_id' AND deleted = 1";
+		$sql_result = mysqli_query($connection,$sql);
+		if (mysqli_num_rows($sql_result) == 1) {
+			//getting the likes
+			$querys = "SELECT * FROM likes WHERE post_id = '$post_id' AND deleted = 1";
+			$sql_res = mysqli_query($connection,$querys);
+
+			echo mysqli_num_rows($sql_res);
+		}else{
+			//inserting likes to the post
+			$query = "INSERT INTO likes(user,post_id)VALUES('$username','$post_id')";
+			$result = mysqli_query($connection,$query);
+
+			//adding to the notifications
+			$sql_notify = "INSERT INTO notification(user_id,notifier,type,type1,notify_id)VALUES('$username','$owner','like','post','$post_id')";
+			$notify_res = mysqli_query($connection,$sql_notify);
+
+			//getting the likes
+			$querys = "SELECT * FROM likes WHERE post_id = '$post_id' AND deleted = 1";
+			$sql_res = mysqli_query($connection,$querys);
+
+			echo mysqli_num_rows($sql_res);
+		}
+	}
+
+ ?>

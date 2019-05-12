@@ -1,0 +1,67 @@
+<?php 
+
+	session_start();
+	require_once('include/connection.php');
+	$output = '';
+
+	if (isset($_POST['edit_post'])) {
+		$post_id = $_POST['edit_post'];
+
+		//getting the content of the post
+		$sql = "SELECT * FROM post WHERE id = '$post_id' AND deleted = 1";
+		$res = mysqli_query($connection,$sql);
+		$row = mysqli_fetch_assoc($res);
+		$post = $row['post'];
+
+		//getting the post articles
+		$query = "SELECT * FROM post_articles WHERE post_id = '$post_id'";
+		$res1 = mysqli_query($connection,$query);
+		$fetch = mysqli_fetch_assoc($res1);
+		$media = $fetch['media'];
+		$ext = $fetch['ext'];
+
+
+		if ($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'gif') {
+		    //$output .= '';
+			echo $output .= '<div class="post-thumb">
+								<img src="posts/'.$media.'" alt="photo">
+							</div><br>
+							<form action="edit_postSub.php" method="POST" enctype="multipart/form-data">
+							<input type="text" class="form-control" value="'.$post.'" name="post" ><br>
+							<input type="hidden" class="form-control" value="'.$post_id.'" name="post_id" ><br>
+								<input type="file" class="form-control" name="file"><br>
+								<input type="submit" name="editSub" class="btn btn-primary" value="Upload">
+							</form>
+							';
+		}elseif ($ext == 'mp4' || $ext == 'ogg' || $ext == '3gp' || $ext == '$avi') {
+		 $output .= '<input type="text" class="form-control" value="'.$post.'" name="post"><br>';
+			echo $output .= '<div class="post-video">
+								<div class="video-thumb">
+									<img src="img/video-youtube1.jpg" alt="photo">
+									<a href="" class="play-video">
+										<svg class="olymp-play-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-play-icon"></use></svg>
+									</a>
+								</div>
+						
+								<div class="video-content">
+									<a href="#" class="h4 title">Iron Maid - ChillGroves</a>
+									<p>Lorem ipsum dolor sit amet, consectetur ipisicing elit, sed do eiusmod tempor incididunt
+										ut labore et dolore magna aliqua...
+									</p>
+									<a href="#" class="link-site">YOUTUBE.COM</a>
+								</div>
+							</div><br>
+							<form action="" method="POST" enctype="multipart/form-data">
+								<input type="file" class="form-control" name="file">
+								<input type="submit" name="edit" class="btn btn-primary" value="Upload">
+							</form>
+							';
+		}else{
+			$output .= '<input type="text" class="form-control" value="'.$post.'" name="post"><br>';
+
+		}
+
+	}
+
+
+ ?>
