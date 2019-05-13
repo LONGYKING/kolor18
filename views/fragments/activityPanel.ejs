@@ -1,1 +1,68 @@
+<div class="post-additional-info inline-items">
+    
+                <a onclick="" class="post-add-icon inline-items">
+                    <svg class="olymp-heart-icon">
+                        <use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+                    </svg>
+                    <span><%=meta.Activities.Likes.length%></span>
+                </a>
+    
+                <ul class="friends-harmonic">
+                        <%
+                        var show=0,i;
+                        var like = meta.Activities.Likes.length;
+                        for (const [lik, liker] of Object.entries(meta.Activities.Likes)) {
+                            show++;
+                            if(show === 4 || show > meta.Activities.Likes.length){
+                                break;
+                                
+                            }
+                            
+                        %>
+                    <li>
+                        <a href="#">
+                            <img src="/images/users_profile_pictures/<%=liker.pack.avatar%>" alt="friend">
+                        </a>
+                    </li>
+                    <%
+                    
+                        }
+                    %>
+                </ul>
+    
+                <div class="names-people-likes">
+                        <% if(like > 0){ %>
+                    <a href="#"><%=meta.Activities.Likes[0].pack.firstname%></a>, 
+                    <a href="#"><%=meta.Activities.Likes[0].pack.lastname%></a> 
 
+                    <% if(like > 1){ %>
+                        and
+                    <br><%=like - 1%> more  
+                    <% } %>
+                    liked this
+                    <% } else { %>
+                        Be the first to like this
+                    <%}%>
+                    
+                </div>
+    
+    
+                <div class="comments-shared">
+                    <a href="#" class="post-add-icon inline-items">
+                        <svg class="olymp-speech-balloon-icon">
+                            <use xlink:href="/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon"></use>
+                        </svg>
+                        <span><%=meta.Activities.comments.length%></span>
+                    </a>
+    
+                    <a  onclick="return share_dialog('<%=meta.activity%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
+                        <svg class="olymp-share-icon">
+                            <use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+                        </svg>
+                        <span><%=meta.Activities.shares.length%></span>
+                    </a>
+                </div>
+    
+    
+            </div>
+            
