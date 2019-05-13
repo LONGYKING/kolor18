@@ -59,26 +59,22 @@ router.get('/photo_of/:id', auth.authenticate,auth.finduser, function(req, res, 
   });
 });
 
-router.get('/', auth.authenticate, auth.findAll, function(req, res, next) {
+router.get('/', auth.authenticate, function(req, res, next) {
   
   feeds.findByInterest(req.InteriorUser._id).then((Feeds) => {
     
     Interior   = req.InteriorUser;
-    S_F        = req.kolors;
     
-    post.findByClass().then((blog) => {
       res.render('index',{
-        Interior,Feeds,S_F,blog 
+        Interior,Feeds,
       });
-    })
-  }).catch((e) => {
-    res.send(e);
-  });
+    }).catch((e) => {
+      res.send(e);
+    });
 });
 
 router.get('/test', function(req, res, next){
-  var string = "Today is Sarah Soma’s Birthday!Leave her a message with your best wishes on her profile page!";
-  res.send(string.trim());
+ res.sendFile('index.ejs');
 });
 
 router.get('/register', auth.active, function(req, res, next){
