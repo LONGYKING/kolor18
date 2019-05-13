@@ -494,9 +494,9 @@
 					<div class="ui-block">
 						<!-- Post -->
 						
-						<article class="hentry post">
+						<article class="hentry post" style="padding: 0px;">
 						
-								<div class="post__author author vcard inline-items">
+								<div class="post__author author vcard inline-items" style="padding: 25px;">
 									<img src="/images/users_profile_pictures/<%=value.users.avatar%>" alt="author">
 						
 									<div class="author-date">
@@ -561,7 +561,7 @@
 								}
 								%>
 								<p style="font-size: <%=value.posts.postcontent[0].fontsize%>; text-align: center"><%=value.posts.postcontent[0].text%></p>
-								<div id="<%=value.metaactivities._id%>">
+								<div id="<%=value.metaactivities._id%>" style="padding: 25px;">
 								<div class="post-additional-info inline-items">
 						
 									<a onclick="return like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
