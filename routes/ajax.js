@@ -23,5 +23,16 @@ router.get('/post/:id', auth.authenticate, function(req, res, next) {
   });
 });
 
+router.get('/sides', auth.authenticate, auth.findAll, function(req, res, next) {
+  S_F        = req.kolors;
+    post.findByClass().then((blog) => {
+      res.render('fragments/sideViews',{
+       S_F,blog 
+      });
+    })
+});
+
+router
+
 
 module.exports = router;
