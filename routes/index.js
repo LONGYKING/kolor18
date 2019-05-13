@@ -61,7 +61,6 @@ router.get('/photo_of/:id', auth.authenticate,auth.finduser, function(req, res, 
 
 router.get('/', auth.authenticate, function(req, res, next) {
   feeds.findByInterest(req.InteriorUser._id).then((Feeds) => {
-    return res.send(Feeds);
     Interior   = req.InteriorUser;
     
       res.render('index',{
