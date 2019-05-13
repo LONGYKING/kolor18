@@ -63,9 +63,9 @@ router.post('/comment_on/:activity', auth.authenticate, auth.findMeta, function(
 
 router.get('/like/:activity', auth.authenticate, auth.findMeta, function(req, res, next) {
 
-  return req.meta.like(req.InteriorUser._id, req.InteriorUser.toJSON()).then((Meta) => {
-    
-    res.redirect('back');
+  return req.meta.like(req.InteriorUser._id, req.InteriorUser.toJSON()).then((meta) => {
+
+    res.render('fragments/activityPanel', {meta});
 
   }).catch((e) => {
 
@@ -83,12 +83,9 @@ router.get('/delete/:activity', auth.authenticate, function(req, res, next) {
     
 });
 
-router.get('/panel/:timeline', auth.authenticate, function(req, res, next) {
-  feeds.findByInterest(req.params.timeline, 'single').then((Feed) => {
-    res.render('fragments/viewPost', {Feed});
-  }).catch((e) => {
-    res.send(e);
-  })
+router.get('/panel/:activity', auth.authenticate, function(req, res, next) {
+  var Feed = JSON.parse(req.params.activity);
+  res.render('fragments/viewPost', {Feed});
   
 });
 
