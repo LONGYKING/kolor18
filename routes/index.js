@@ -73,9 +73,7 @@ router.get('/', auth.authenticate, function(req, res, next) {
     });
 });
 
-router.get('/test', function(req, res, next){
- res.sendFile('index.ejs');
-});
+
 
 router.get('/register', auth.active, function(req, res, next){
   res.render('register');
@@ -107,6 +105,7 @@ router.post('/register', function(req, res, next){
 
 // POST /users/login {email, password}
 router.post('/login', (req, res) => {
+  return res.send('hello');
   var body = _.pick(req.body, ['Email', 'Password']);
 
   user.findByCredentials(body.Email, body.Password).then((user) => {
