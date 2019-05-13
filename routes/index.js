@@ -108,9 +108,9 @@ router.post('/login', (req, res) => {
   var body = _.pick(req.body, ['Email', 'Password']);
 
   user.findByCredentials(body.Email, body.Password).then((user) => {
-    return res.send(user);
     return user.generateAuthToken().then((token) => {
       req.session.x_auth = token;
+      return res.send(user);
       res.header('x-auth', token).redirect('/');
     });
   }).catch((e) => {
