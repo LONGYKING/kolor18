@@ -13,6 +13,9 @@ var {activity}       = require('../models/activitymodel');
  */
 
 router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next){
+      if(req.body.postcontent != 'undefined' && req.files.file != 'undefined'){
+          return res.redirect('back');
+        }
 
       req.body.postcontent = {text: req.body.postcontent.trim(), fontsize: texts.format(`${req.body.postcontent}`)};
       var p                = new post(req.body);
