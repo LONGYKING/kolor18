@@ -3,7 +3,7 @@ function like(id){
         method: 'GET',
         url   : '/post/like/'+id
     }).done(function (data) {
-        alert(data);
+        $('#'+id).html(data);
     }).fail(function (data) {
         alert("failed");
     })
@@ -14,6 +14,7 @@ function close_post(){
 }
 
 function panel(timeline){
+    $('#spinner-wrapper').show();
     $.ajax({
         method: 'GET',
         url   : '/post/panel/'+timeline
@@ -53,3 +54,19 @@ function share_dialog(id){
     })
 
 }
+
+var Load = ()  => {
+    
+    if(window.screen.availWidth > 1024){
+        $.ajax({
+            method: 'GET',
+            url   : '/ajax/sides'
+        }).done(function (data) {
+            $('#sideoo').append(data);
+        }).fail(function (data) {
+            alert("Error loading sides");
+        })
+    }
+}
+
+
