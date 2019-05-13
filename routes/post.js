@@ -13,7 +13,7 @@ var {activity}       = require('../models/activitymodel');
  */
 
 router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next){
-      if(req.body.postcontent != 'undefined' && req.files.file != 'undefined'){
+      if(req.body.postcontent === 'undefined' && req.files.file === 'undefined'){
           return res.redirect('back');
         }
 
