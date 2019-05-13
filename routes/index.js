@@ -110,7 +110,7 @@ router.post('/login', (req, res) => {
   user.findByCredentials(body.Email, body.Password).then((user) => {
     return user.generateAuthToken().then((token) => {
       req.session.x_auth = token;
-      res.header('x-auth', token).redirect('/');
+      res.redirect('/');
     });
   }).catch((e) => {
     res.status(400).redirect('/register#login');
