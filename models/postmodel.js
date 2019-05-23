@@ -21,6 +21,19 @@ activity        : {
   type          : Object
 },
 
+title           : {
+    type        : String
+},
+
+postObj         : {
+    type        : String,
+    default     : "users"
+},
+
+mainObj         : {
+    type        : String
+},
+
 postcontent     : [{
   text          : {},
   fontsize      : {}
@@ -60,11 +73,11 @@ PostSchema.statics.findByAuthor = function (auth,id) {
     
 }
 
-PostSchema.statics.findByClass = function ($class = 'blogpost') {
+PostSchema.statics.findByClass = function (classi = "blog") {
   var post = this;
 
   return post.find({
-    //'_id': id,
+    postObj : classi,
   }).then((post) => {
       return post;
   });
