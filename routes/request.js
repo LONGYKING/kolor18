@@ -2,7 +2,7 @@ var express        = require('express');
 var _              = require('lodash');
 var router         = express.Router();
 
-var user           = require('../models/usermodel');
+var {user}           = require('../models/usermodel');
 var file           = require('../helpers/files');
 var auth           = require('../middleware/auth');
 var {request}      = require('../models/RequestModel');
