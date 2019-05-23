@@ -2,7 +2,7 @@ var express = require('express');
 var _       = require('lodash');
 const mailer   = require('nodemailer');
 var router  = express.Router();
-
+var {generateOTP}    = require('../helpers/help');
 var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
@@ -122,7 +122,7 @@ router.post('/register', function(req, res, next){
   }).then((token) => {
 
     req.session.x_auth = token;
-    req.session.code = 12345;
+    req.session.code = generateOTP();
     res.header('x-auth', token).redirect('/auth');
   }).catch((e) => {
     return res.send(e);
