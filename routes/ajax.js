@@ -3,7 +3,7 @@ var _       = require('lodash');
 var router  = express.Router();
 
 var user    = require('../models/usermodel');
-var {post}    = require('../models/postmodel');
+var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
 var auth    = require('../middleware/auth');
 var alt     = require('../models/AlternateModel');
@@ -30,6 +30,14 @@ router.get('/sides', auth.authenticate, auth.findAll, function(req, res, next) {
        S_F,blog 
       });
     })
+});
+
+router.get('/verify', function(req, res, next) {
+  if(req.body.code === req.session.code){
+    res.send('true');
+  }else{
+    res.send('false');
+  }
 });
 
 router
