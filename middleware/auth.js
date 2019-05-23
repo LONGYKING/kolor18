@@ -1,8 +1,9 @@
-var user         = require('../models/usermodel');
+var {user}         = require('../models/usermodel');
 var {post}       = require('../models/postmodel');
 var  meta        = require('../models/MetaActivityModel');
 var {activity}   = require('../models/activitymodel');
 var {relation}   = require('../models/RelationModel');
+var group        = require('../models/groupmodel');
 
 const {ObjectID} = require('mongodb');
 
@@ -63,11 +64,16 @@ var findMeta = (req, res, next) => {
     res.redirect('back');
 
   });
-}
+};
+
+var verifykey = function(req, res, next){
+  req.InteriorUser = {_id : "jhhhdls"};
+  next();
+};
 
 var watch_activity = function(req, res, next){
-  
-  var a = new activity({author : req.InteriorUser._id});
+  var author = typeof req.body.inhuman === 'undefined' ? req.InteriorUser._id : req.body.inhuman;
+  var a = new activity({author : new ObjectID(`${author}`)});
 
   a.save().then((act) => {
 
@@ -127,13 +133,31 @@ post.findById({_id : new ObjectID(`${req.body.argument}`)}).then((post) => {
 
 }
 
+//middleware that gets the groups created by kolor18
+var findGroups = (req, res, next) => {
+
+  group.findGroupByName(req.params.id).then((group) => {
+      if (!group) {
+          res.redirect('back');
+      }
+
+      req.foundGroup = group;
+      next();
+  }).catch((e) => {
+      res.status(401).redirect('/');
+  });
+};
+
 
 module.exports = {
   authenticate,
-  active,finduser,
+  active,
+  finduser,
   findMeta,
   watch_activity,
   findRequest,
   findAll,
-  findPost
+  findPost,
+  findGroups,
+  verifykey
 };
