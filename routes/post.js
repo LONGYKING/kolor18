@@ -13,9 +13,10 @@ var {activity}       = require('../models/activitymodel');
  */
 
 router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next){
-      if(req.body.postcontent === "" && typeof req.files.file  === 'undefined'){
-          return res.redirect('back');
-        }
+  
+  if(req.body.postcontent === "" && typeof req.files.file  === 'undefined'){
+    return res.redirect('back');
+  }
 
       req.body.postcontent = {text: req.body.postcontent.trim(), fontsize: texts.format(`${req.body.postcontent}`)};
       var p                = new post(req.body);
@@ -28,8 +29,16 @@ router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next
 
 
         if(typeof req.files.file != 'undefined'){
-
-          file.scan(req.files.file, (err, file) => {
+          var f = req.files.file;
+          if(typeof f.length === 'number'){
+            f = req.files.file;
+          } else {
+            f = [req.files.file];
+            
+          }
+          
+          for (const [key, value] of Object.entries(f)) {
+          file.scan(value, (err, file) => {
 
             if(err.status === true){
 
@@ -41,8 +50,9 @@ router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next
             return p.AddFile(file.filename,file.type);
           });
         }
+        }
 
-        res.redirect('back');
+        res.send('upload complete');
 
       }).catch((e) => {
 
@@ -52,10 +62,12 @@ router.post('/', auth.authenticate, auth.watch_activity, function(req, res, next
 });
 
 router.post('/comment_on/:activity', auth.authenticate, auth.findMeta, function(req, res, next){
- 
+  if(req.body.text === "" && typeof req.files.file  === 'undefined'){
+    return res.redirect('back');
+  }
     return req.meta.comment(req.body.text, req.InteriorUser._id, req.InteriorUser.toJSON()).then((Meta) => {
     
-      res.redirect('back');
+      res.send(Meta);
 
     }).catch((e) => {
       
@@ -88,6 +100,7 @@ router.get('/delete/:activity', auth.authenticate, function(req, res, next) {
 
 router.get('/panel/:activity', auth.authenticate, function(req, res, next) {
   var Feed = JSON.parse(req.params.activity);
+  Interior   = req.InteriorUser;
   res.render('fragments/viewPost', {Feed});
   
 });
