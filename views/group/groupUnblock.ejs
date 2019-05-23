@@ -1,0 +1,200 @@
+<% include partials/head%>
+    <div class="header-spacer header-spacer-small"></div>
+
+
+    <div class="main-header">
+        <div class="content-bg-wrap bg-group"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+                    <div class="main-header-content">
+                        <h1>Manage your Friend Groups</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque aut, id alias, atque, cupiditate
+                            est itaque, nemo doloribus necessitatibus perspiciatis consequuntur vero deserunt asperiores
+                            expedita ex fugit. Deserunt in illo, nesciunt magnam aspernatur tenetur deleniti!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <img class="img-bottom" src="img/group-bottom.png" alt="friends">
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col col-xl-8 order-xl-2 col-lg-8 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Group Members</h6>
+                        <a href="#" class="more">
+                            <svg class="olymp-three-dots-icon">
+                                <use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+
+
+                    <!-- Notification List -->
+                    <%
+                        if(Newuser.blocked.length > 0){
+                        for (const [key, value] of Object.entries(Newuser.blocked)) {
+                    %>
+
+                        <div class="ui-block">
+
+                            <article class="hentry post has-post-thumbnail">
+
+                                <div class="post__author author vcard inline-items">
+                                    <img src="/img/avatar1-sm.jpg" alt="author">
+
+                                    <div class="author-date">
+                                        <a class="h6 post__author-name fn" href="#">
+                                            <%= value.member %>
+                                        </a>
+                                        <div class="post__date">
+                                            <time class="published" datetime="2004-07-24T18:18">
+                                                joined on
+                                                <%= value.created %>
+                                            </time>
+                                        </div>
+                                    </div>
+
+                                    <div class="more">
+                                        <svg class="olymp-three-dots-icon">
+                                            <use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                                        </svg>
+                                        <ul class="more-dropdown">
+                                            <li>
+                                                <a href="/group/unblock/<%=value.member%>">UnBlock Member</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Window-popup Share Group Post -->
+
+                        <div class="modal fade" id="create-friend-group-2" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-1" aria-hidden="true">
+                            <div class="modal-dialog window-popup create-friend-group create-friend-group-2" role="document">
+                                <div class="modal-content">
+                                    <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                                        <svg class="olymp-close-icon">
+                                            <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                                        </svg>
+                                    </a>
+                                    <div class="modal-header">
+                                        <h6 class="title">Share Post</h6>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form method="POST" action="/group/shareGroupPost" enctype="multipart/form-data">
+                                            <div class="form-group with-button">
+                                                <input type="hidden" name="author" value="<%=value.author%>">
+                                                <input type="hidden" name="obj" value="<%=value.postObj%>">
+                                                <input type="hidden" name="main" value="<%=value.mainObj%>">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="group" name="share">Share In Your Timeline</label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-blue btn-lg full-width" id="create">Share Post</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ... end Window-popup Share Group Post -->
+
+                        <% } }else{%>
+
+                            <p>No Blocked Members</p>
+
+                            <% } %>
+
+                                <!-- ... end Notification List -->
+
+                </div>
+            </div>
+            <% include partials/groupSide%>
+        </div>
+    </div>
+
+    <!-- Window-popup Create Group Post -->
+
+    <div class="modal fade" id="create-friend-group-1" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-1" aria-hidden="true">
+        <div class="modal-dialog window-popup create-friend-group create-friend-group-1" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
+                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                    </svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Create Post</h6>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" action="/group/groupPost" enctype="multipart/form-data">
+                        <input type="hidden" name="gname" value="<%= Newuser.groups%>">
+                        <div class="form-group with-button">
+                            <textarea class="form-control" name="postContent">
+
+                            </textarea>
+                        </div>
+
+                        <div class="form-group with-button">
+                            <input type="file" class="form-control" name="image">
+                        </div>
+
+                        <div class="form-group with-button">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="group" name="share">Share In Your Timeline</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-blue btn-lg full-width" id="create">Create Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... end Window-popup Create Group Post -->
+
+    <!-- Window-popup Create Group Admin -->
+
+    <div class="modal fade" id="assignAdmin" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-1" aria-hidden="true">
+        <div class="modal-dialog window-popup create-friend-group assignAdmin" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
+                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                    </svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Create Group Admin For
+                        <%=Newuser.groups%>
+                    </h6>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" action="/group/addAdmins">
+                        <input type="hidden" name="gname" value="<%=Newuser.groups%>">
+                        <div class="form-group with-button">
+                            <input type="text" name="buddy" placeholder="enter Buddy Account">
+                        </div>
+                        <button type="submit" class="btn btn-blue btn-lg full-width" id="create">Create Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... end Window-popup Create Group Admin -->
+
+    <% include partials/footer%>
+        <% include partials/profile_tap%>
