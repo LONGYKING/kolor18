@@ -1,11 +1,11 @@
-var express = require('express');
-var _       = require('lodash');
-var auth    = require('../middleware/auth');
-var user    = require('../models/usermodel');
-const {ObjectID} = require('mongodb');
-var {findFriends} = require('../models/RelationModel');
+var express            = require('express');
+var _                  = require('lodash');
+var auth               = require('../middleware/auth');
+var {user,birthday}    = require('../models/usermodel');
+const {ObjectID}       = require('mongodb');
+var {findFriends}      = require('../models/RelationModel');
 
-var router = express.Router();
+var router             = express.Router();
 
 /* GET users listing. */
 router.get('/pinfo', auth.authenticate, function(req, res, next) {
@@ -17,6 +17,26 @@ router.get('/setup_account', auth.authenticate, function(req, res, next) {
 });
 
 router.get('/setup_security', auth.authenticate, function(req, res, next) {
+  res.render('accpass',req.InteriorUser);
+});
+
+router.get('/birthday', auth.authenticate, function(req, res, next) {
+
+  birthday(req.InteriorUser._id).then((birthday) => {
+      res.render('fragments/birthday',{
+        birthday
+      });
+    }).catch((e) => {
+
+      res.send(e);
+
+    });
+});
+
+router.get('/verify', auth.authenticate, function(req, res, next) {
+  if(req.body.code === req.InteriorUser._code){
+    res.redirect('');
+  } 
   res.render('accpass',req.InteriorUser);
 });
 
@@ -37,16 +57,22 @@ router.get('/friends', auth.authenticate, function(req, res, next){
 });
 
 router.post('/update', auth.authenticate, function(req, res, next) {
+
   if (!ObjectID.isValid(req.InteriorUser._id)) {
+
     return res.status(404).send();
+    
   }
 
   user.findByIdAndUpdate(req.InteriorUser._id, {$set: req.body}, {new: true}).then((user) => {
     if (!user) {
+
       return res.status(404).send();
+
     }
 
     res.redirect('back');
+
   }).catch((e) => {
     res.status(400).send();
   });
