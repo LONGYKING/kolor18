@@ -7,7 +7,6 @@ var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
 var auth    = require('../middleware/auth');
-var {generateOTP}    = require('../helpers/help');
 var alt     = require('../models/AlternateModel');
 var {GetFriendRequests} = require('../models/RelationModel');
 var Failed  = require('../languages/success');
@@ -123,7 +122,7 @@ router.post('/register', function(req, res, next){
   }).then((token) => {
 
     req.session.x_auth = token;
-    req.session.code = generateOTP();
+    req.session.code = 12345;
     res.header('x-auth', token).redirect('/auth');
   }).catch((e) => {
     return res.send(e);
