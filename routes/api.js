@@ -5,31 +5,27 @@ var {post}   = require('../models/postmodel');
 var apimodel = require('../models/blogApimodel');
 
 var texts    = require('../helpers/text');
-var auth     = require('../middleware/auth.js');
+var auth     = require('../middleware/auth');
 const { ObjectID } = require('mongodb');
 
 var router = express.Router();
 
-router.get('/api/:key/:title/:content', auth.watch_activity, function(req, res, next) {
+router.get('/api/:key/:title/:content',auth.verifykey, auth.watch_activity, function(req, res, next) {
 
     var title = req.params.title;
     var apikey = req.params.key;
     var postContent = req.params.content;
-    var blog = 'Blog';
+    var blog = 'blog';
 
     //making sure the url is not empty
     if (title == "" || postContent == "") {
         return res.send('invalid response');
     }
-    //checking if the key is valid 
-    apimodel.getKey(apikey).then((key) => {
-        if (key) {
             //getting the owner of the post
-            var owner = key.owner;
             postContent = { text: postContent, fontsize: texts.format(`${postContent}`) };
 
             //getting the post contents
-            var posts = new post({ title: title, postContent: postContent,author:owner, postObj: blog });
+            var posts = new post({ title: title, postcontent: postContent,author:req.InteriorUser._id, postObj: blog, activity: req.body.activity});
             //console.log(posts);
 
             //adding post to the blog
@@ -37,16 +33,11 @@ router.get('/api/:key/:title/:content', auth.watch_activity, function(req, res, 
                 if (!posts1) {
                     return res.send('Error');
                 }
-                return req.activity.getArgument(post._id).then((timeline) => {
-                  res.redirect('back');
+                return req.activity.getArgument(posts1._id).then((timeline) => {
+                  res.send('hello');
                 });
                 
             });
-
-        } else {
-            res.send('key missing');
-        }
-    });
     
 });
 
