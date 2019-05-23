@@ -5,6 +5,7 @@ const bcrypt    = require('bcryptjs');
 
 const clone     = require('../clones/model_rules');
 const mongoose  = require('../config/config');
+const {ObjectID}= require('mongodb');
 
 
 var UserSchema  = new mongoose.Schema({
@@ -37,19 +38,43 @@ Website         : {},
 
 Dob             : {},
 
-Country         : {},
+Country         : {
+  type          : String,
+  required      : true,
+},
 
 Province        : {},
 
-City            : {},
+City            : {
+  type          : String,
+  required      : true,
+},
 
 About           : {},
 
-Gender          : {},
+Gender          : {
+  type          : String,
+  required      : true,
+},
 
 Belifs          : {},
 
 Birthplace      : {},
+
+day_o_b         : {
+  type          : Number,
+  required      : true,
+},
+
+month_o_b       : {
+  type          : String,
+  required      : true,
+},
+
+year_o_b        : {
+  type          : Number,
+  required      : true,
+},
 
 Occupation      : {},
 
@@ -199,4 +224,51 @@ UserSchema.pre('save', function (next) {
 
 var user = mongoose.model('user', UserSchema);
 
-module.exports = user;
+var birthday = (auth) => {
+  return user.aggregate(
+    [
+        { 
+            "$project" : {
+                "users" : "$$ROOT"
+            }
+        }, 
+        { 
+            "$lookup" : {
+                "localField" : "users._id", 
+                "from" : "relations", 
+                "foreignField" : "author", 
+                "as" : "relations"
+            }
+        }, 
+        { 
+            "$unwind"  : {
+                "path" : "$relations", 
+                "preserveNullAndEmptyArrays" : false
+            }
+        }, 
+        { 
+            "$match" : {
+                "relations.follow" : new ObjectID(`${auth}`),
+                "users.day_o_b" : 29,
+                "relations.status" : "true", 
+                "users.month_o_b"  : "Febuary"
+                
+                
+            }
+        }, 
+        { 
+            "$project" : {
+                "users.firstname"  : "$users.firstname", 
+                "users.lastname"   : "$users.lastname", 
+                "users.avatar"     : "$users.avatar", 
+                "users.Gender"     : "$users.Gender", 
+            }
+        }
+    ], 
+    function (error, data){  
+        return Promise.resolve(data);
+    }
+).allowDiskUse(true);
+}
+
+module.exports = {user, birthday};
