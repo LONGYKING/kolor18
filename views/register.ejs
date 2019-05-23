@@ -29,7 +29,8 @@
         	<div class="col-sm-5">
             <div class="intro-texts">
             	<h1 class="text-white">Make Cool Friends !!!</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus nobis qui minus, earum! Nostrum aut amet corrupti inventore dolorem et deserunt magni tempore accusamus obcaecati facere tempora optio quibusdam maxime dolor modi, eaque sapiente omnis fugit eveniet dicta harum porro ut ducimus? Consectetur rem laborum perspiciatis ipsum molestiae inventore praesentium accusamus.</p>
+              <p>“Connect with friends, your interest and create a whole knew world for yourself”
+                .</p>
               <button class="btn btn-primary">Learn More</button>
             </div>
           </div>
@@ -78,101 +79,74 @@
                       <p class="birth"><strong>Date of Birth</strong></p>
                       <div class="form-group col-sm-3 col-xs-6">
                         <label for="month" class="sr-only"></label>
-                        <select class="form-control" id="day">
-                          <option value="Day" disabled selected>Day</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                          <option>6</option>
-                          <option>7</option>
-                          <option>8</option>
-                          <option>9</option>
-                          <option>10</option>
-                          <option>11</option>
-                          <option>12</option>
-                          <option>13</option>
-                          <option>14</option>
-                          <option>15</option>
-                          <option>16</option>
-                          <option>17</option>
-                          <option>18</option>
-                          <option>19</option>
-                          <option>20</option>
-                          <option>21</option>
-                          <option>22</option>
-                          <option>23</option>
-                          <option>24</option>
-                          <option>25</option>
-                          <option>26</option>
-                          <option>27</option>
-                          <option>28</option>
-                          <option>29</option>
-                          <option>30</option>
-                          <option>31</option>
+                        <select name="day_o_b" class="form-control" id="day">
+                          <option value="" disabled selected>Day</option>
+                          <%
+                            var i;
+                            for(i = 1; i <= 31; i++){
+                          %>
+                          <option value="<%=i%>"><%=i%></option>
+                          <%
+                            }
+                          %>
                         </select>
                       </div>
                       <div class="form-group col-sm-3 col-xs-6">
                         <label for="month" class="sr-only"></label>
-                        <select class="form-control" id="month">
-                          <option value="month" disabled selected>Month</option>
-                          <option>Jan</option>
-                          <option>Feb</option>
-                          <option>Mar</option>
-                          <option>Apr</option>
-                          <option>May</option>
-                          <option>Jun</option>
-                          <option>Jul</option>
-                          <option>Aug</option>
-                          <option>Sep</option>
-                          <option>Oct</option>
-                          <option>Nov</option>
-                          <option>Dec</option>
+                        <select name="month_o_b" class="form-control" id="month">
+                          <option value="" disabled selected>Month</option>
+                          <option value="January">Jan</option>
+                          <option value="Febuary">Feb</option>
+                          <option value="March">Mar</option>
+                          <option value="April">Apr</option>
+                          <option value="May">May</option>
+                          <option value="June">Jun</option>
+                          <option value="July">Jul</option>
+                          <option value="August">Aug</option>
+                          <option value="September">Sep</option>
+                          <option value="October">Oct</option>
+                          <option value="November">Nov</option>
+                          <option value="December">Dec</option>
                         </select>
                       </div>
                       <div class="form-group col-sm-6 col-xs-12">
                         <label for="year" class="sr-only"></label>
-                        <select class="form-control" id="year">
-                          <option value="year" disabled selected>Year</option>
-                          <option>1990</option>
-                          <option>1991</option>
-                          <option>1992</option>
-                          <option>1993</option>
-                          <option>1994</option>
-                          <option>1995</option>
-                          <option>1996</option>
-                          <option>1997</option>
-                          <option>2009</option>
-                          <option>2010</option>
-                          <option>2011</option>
-                          <option>2018</option>
+                        <select name="year_o_b" class="form-control" id="year">
+                          <option value="" disabled selected>Year</option>
+                          <%
+                          var i;
+                          for(i = 1880; i <= 2019; i++){
+                          %>
+                          <option value="<%=i%>"><%=i%></option>
+                          <%
+                            }
+                          %>
                         </select>
                       </div>
                     </div>
                     <div class="form-group gender">
                       <label class="radio-inline">
-                        <input type="radio" name="optradio" checked>Male
+                        <input  value="male" type="radio" name="Gender" checked>Male
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="optradio">Female
+                        <input value="Female" type="radio" name="Gender">Female
                       </label>
                     </div>
                     <div class="row">
                       <div class="form-group col-xs-6">
                         <label for="city" class="sr-only">City</label>
-                        <input id="city" class="form-control input-group-lg reg_name" type="text" name="city" title="Enter city" placeholder="Your city"/>
+                        <input id="city" class="form-control input-group-lg reg_name" type="text" name="City" title="Enter city" placeholder="Your city"/>
                       </div>
                       <div class="form-group col-xs-6">
                         <label for="country" class="sr-only"></label>
-                        <select class="form-control" id="country">
+                        <select name="Country" class="form-control" id="country">
                           <option value="country" disabled selected>Country</option>
-                          <option value="AFG">Afghanistan</option>
-                          <option value="DZA">Algeria</option>
-                          <option value="ASM">American</option>
-                          <option value="GTM">Nigeria</option>
-                          <option value="GGY">Guernsey</option>
-                          <option value="GIN">Guinea</option>
+                          <option value="Afghanistan">Afghanistan</option>
+                          <option value="Algeria">Algeria</option>
+                          <option value="American">American</option>
+                          <option value="Nigeria">Nigeria</option>
+                          <option value="Guernsey">Guernsey</option>
+                          <option value="Guinea">Guinea</option>
                          </select>
                       </div>
                     </div>
