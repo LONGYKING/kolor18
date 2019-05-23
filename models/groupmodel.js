@@ -1,3 +1,5 @@
+
+
 const validator = require('validator');
 const _ = require('lodash');
 const mongoose = require('../config/config');
@@ -9,8 +11,15 @@ var groupSchema = new mongoose.Schema({
         unique : true
     },
 
+    category   : {
+        type   : String,
+        trim   : true,
+        unique : true
+    },
+
     groupLogo  : {
-        type   : String
+        type   : String,
+        default: 'group.png'
     },
 
     groupDes   : {
@@ -29,21 +38,6 @@ var groupSchema = new mongoose.Schema({
     }
 });
 
-//function getting the users informations
-groupSchema.methods.toJSON = function () {
-    var group = this;
-    var groupObject = post.toObject();
-
-    return _.pick(groupObject, ['_id', 'Email', 'firstname']);
-}
-
-//function that gets the group information
-groupSchema.methods.toJSONS = function(){
-    var group = this;
-    var groupObject = postMessage.toObject();
-
-    return _.pick(groupObject, ['_id', 'groupName']);
-};
 
 //function that finds the groups using the group name and the logged in user
 groupSchema.statics.findGroupByName = function (gname) {
@@ -64,6 +58,17 @@ groupSchema.statics.findMyGroups = function (creators) {
         return Promise.resolve(groups);
     });
 }
+
+
+groupSchema.methods.AddFile = function (logo) {
+    var group   = this;
+  
+    group.groupLogo = logo;
+  
+    return group.save().then((group) => {
+    return group;
+   });
+  }
 
 //function that get suggested group for users
 groupSchema.statics.suggestGroups = function (creators, groupname) {
