@@ -81,6 +81,8 @@ MetaActivitySchema.methods.comment = function (text,judge,pack) {
 MetaActivitySchema.methods.like = function (judge,pack) {
   var MetaActivity   = this;
 
+ 
+
   MetaActivity.Activities.Likes.push({kind:'like', judge, pack});
 
   return MetaActivity.save().then((meta) => {
