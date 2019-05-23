@@ -10,6 +10,7 @@ var {request} = require('../models/RequestModel');
 var groupAdmin = require('../models/groupAdminmodel');
 var texts = require('../helpers/text');
 var file  = require('../helpers/files');
+var feeds   = require('../models/activitymodel');
 
 const { ObjectID } = require('mongodb');
 
@@ -25,35 +26,34 @@ router.get('/kolor18', auth.authenticate, function(req, res, next){
     });
 });
 
+router.get('/all_group', auth.authenticate, function(req, res, next){
+    group.find().then((groups) => {
+        res.render('fragments/all_groups', {groups});
+    }).catch((e) => {
+        res.send(e);
+    });
+});
+
 router.get("/getForm", auth.authenticate, function(req, res, next) {
     var cool = "nice one";
     res.render("text", cool);
 });
 
 //showing the individaul group feeds
-router.get('/kolor18Group/:id', auth.authenticate,groupAuth.findGroups, groupAuth.findGroupPosts, function(req, res, next){
-    var active = 'active';
-    var block = 'blocked';
-    //getting the total of admins and requests
-    groupAdmin.getAdminByGroupName(req.foundGroup[0].groupName).then((admins) =>{
-        //getting the group request
-        request.findByMain(req.foundGroup[0].groupName).then((requests) => {
-            //getting the members in a group
-            groupMember.findMembers(req.foundGroup[0].groupName,active).then((members) => {
-                groupMember.findMembers(req.foundGroup[0].groupName, block).then((blockedMembers) => {
-                    Newuser = req.user.toJSON();
-                    Newuser.groups = req.foundGroup[0].groupName;
-                    Newuser.posts = req.FoundGroupPost;
-                    Newuser.request = requests;
-                    Newuser.members = members;
-                    Newuser.blocked = blockedMembers;
-                    Newuser.admin = admins;
-                    Newuser.groupID = req.foundGroup[0].creator;
-                    res.render('groups', Newuser);
-                });
-            });
+router.get('/kolor18Group/:id', auth.authenticate, auth.findGroups, function(req, res, next){
+    
+    feeds.findByInterest(req.foundGroup[0]._id).then((Feeds) => {
+        
+        Interior   = req.InteriorUser;
+        Group      = req.foundGroup;
+        
+        res.render('group/groups',{
+            Interior,Feeds,Group
         });
-    });
+        }).catch((e) => {
+          res.send(e);
+        });   
+
 });
 
 //showing the blocked members
@@ -327,36 +327,32 @@ router.post('/groupPost', auth.authenticate, function(req, res, next) {
 //adding and creating groups in the platform
 router.post('/addGroup', auth.authenticate, function(req, res, next){
     req.body.creator = req.InteriorUser._id;
-    console.log('this should be working');
-    if(!ObjectID.isValid(req.InteriorUser._id)) {
-        return res.status(404).send();
-    }
 
-    if(!req.files){
-        return res.status(400).send("No files were uploaded.");
-    }
-    file.scan(req.files.image, (err, file) => {
+    var groupData = new group(req.body);
+
+    groupData.save().then((group) => {
         
-    if(err.status === true){  
-        return res.send(err.message);    
-    }
-    var group_name = req.body.name;
-    var group_des = req.body.group_des;
-    var groupData = new group({groupName: group_name, groupLogo: file.filename, groupDes: group_des, creator: req.InteriorUser._id});
-
-    file.move_to('group_logos');
-
-    group.create(groupData).then(() => {
-
-     res.redirect('back');
-
+        if(typeof req.files.image != 'undefined'){
+            
+            file.scan(req.files.image, (err, file) => {
+            
+            if(err.status === true){
+            
+                return res.send(err.message);
+            
+            }
+                file.move_to('group_logos');
+            
+                    return group.AddFile(file.filename);
+            });
+        }
+        res.redirect('back');
     }).catch((e) => {
-         res.status(404).send(e) 
+
+        res.status(404).send(e);
+
     });
-        
-    });
-    
-    
+          
 });
 
 
