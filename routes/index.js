@@ -7,6 +7,7 @@ var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
 var auth    = require('../middleware/auth');
+var {generateOTP}    = require('../helpers/help');
 var alt     = require('../models/AlternateModel');
 var {GetFriendRequests} = require('../models/RelationModel');
 var Failed  = require('../languages/success');
@@ -98,7 +99,7 @@ let mailOptions = {
     to: req.InteriorUser.email, // list of receivers
     subject:  'VERIFICATION',
     text: `YOUR VERIFICATION CODE => ${req.session.code}`, // plain text body
-    html: `<b>Hello ${req.InteriorUser.firstname} <br> your verification code => ${code}</b>` // html body
+    html: `<b>Hello ${req.InteriorUser.firstname} <br> your verification code => ${req.session.code}</b>` // html body
 };
 
 transporter.sendMail(mailOptions, (error, info) => {
@@ -122,7 +123,7 @@ router.post('/register', function(req, res, next){
   }).then((token) => {
 
     req.session.x_auth = token;
-    req.session.code = Math.floor(Math.random() * (max - min + 1)) + min + Math.random();;
+    req.session.code = generateOTP();
     res.header('x-auth', token).redirect('/auth');
   }).catch((e) => {
     return res.send(e);
