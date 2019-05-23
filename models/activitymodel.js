@@ -57,6 +57,10 @@ var systematic_flow = function (arg,type) {
                         {
                             "timelines.to_author" : 'public'
                         }
+                        ,
+                        {
+                            "posts.postObj" : "users"
+                        }
                     ]
                 }, 
                 {
@@ -69,7 +73,11 @@ var systematic_flow = function (arg,type) {
                         }, 
                         {
                             "timelines.to_author" : 'public'
+                        },
+                        {
+                            "posts.postObj" : "users"
                         }
+
                     ]
                 }
             ]
@@ -84,7 +92,7 @@ var systematic_flow = function (arg,type) {
 
     if(type === 'blog'){
         return {
-            "posts.category" : 'blog'
+            "posts.postObj" : "blog"
         }
     }
     
@@ -118,7 +126,7 @@ ActivitySchema.methods.getArgument = function (argument) {
 
 var activity = mongoose.model('Timeline', ActivitySchema);
 
-var findByInterest = function (auth, type = 'news') {  
+var findByInterest = function (auth, type = 'news') {
     return activity.aggregate(
         [
             { 
@@ -210,6 +218,7 @@ var findByInterest = function (auth, type = 'news') {
                     "posts.time"          : "$posts.time",
                     "posts.Activities"    : "$posts.Activities",
                     "posts.Media"         : "$posts.Media",
+                    "posts.postObj"       : "$posts.postObj",
                     "relations._id"       : "$relations._id",
                     "metaactivities.Activities" : "$metaactivities.Activities",
                     "metaactivities.activity" : "$metaactivities.activity",
@@ -233,6 +242,7 @@ var findByInterest = function (auth, type = 'news') {
         function (error, data){  
             return Promise.resolve(data);
         }
+        
     ).allowDiskUse(true);
 }
 
