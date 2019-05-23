@@ -39,12 +39,12 @@
 
 <script src="js/bootstrap.bundle.js"></script>
 
-<script type="">
+<script>
 	$(document).ready(function(){
 		//function that refreshes the newsFeed every second
      function refreshNews(){
           var autoload = setInterval(function(){
-               $('#show_newsFeed').load('newsFeed.php');
+               $('#show_newsFeed').load('index.ejs');
           },1000);
      }
 
