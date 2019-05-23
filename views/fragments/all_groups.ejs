@@ -1,0 +1,21 @@
+<%
+for (const [user, group] of Object.entries(groups)) {
+%>
+<li class="inline-items">
+        <div class="author-thumb post__author author vcard inline-items feed-child">
+            <img style="width:40px;height:40px;" src="/images/group_logos/<%=group.groupLogo%>" alt="author">
+        </div>
+        <div class="notification-event">
+            <a href="/group/kolor18Group/<%= group.groupName %>" class="h6 notification-friend"><%=group.groupName%></a>
+            <span class="chat-message-item"><%=group.groupDes%></span>
+        </div>
+        <span class="notification-icon" data-toggle="tooltip" data-placement="top" data-original-title="ADD TO YOUR FAVS">
+            <a href="#">
+                <svg class="olymp-star-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
+            </a>
+        </span>
+
+</li>
+<%
+}
+%>

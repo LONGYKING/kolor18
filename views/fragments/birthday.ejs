@@ -1,0 +1,60 @@
+<%
+    if(typeof birthday !== 'undefined'){
+%>
+
+<div class="ui-block">
+
+<!-- W-Birthsday-Alert -->
+
+<div class="widget w-birthday-alert">
+    <div class="icons-block">
+        <svg class="olymp-cupcake-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-cupcake-icon"></use></svg>
+        <a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+    </div>
+
+    <div class="content">
+        <div class="author-thumb">
+            <%
+            var title = '';
+            var ref   = ''
+            if(birthday[0].users.Gender === 'male'){
+                title = 'him';
+                ref   = 'his';
+
+            } else {
+                title = 'her';
+                ref   =  'her'
+            }
+            for (const [user, birth] of Object.entries(birthday)) {
+            %>
+            <img src="/images/users_profile_pictures/<%=birth.users.avatar%>" alt="author" style="width:20%;height:20%;">
+            <%
+                }
+                if(birthday.length > 1){
+            %>
+            
+            <img class="all-users bg-blue" alt="+<%=birthday.length%>">
+            <%
+                }
+            %>
+        </div>
+        <span>Today is</span>
+        <%
+        if(birthday.length > 1){
+        %>
+        <a href="#" class="h4 title"><%=birthday[0].users.firstname%> <%=birthday[0].users.lastname%> and <%=birthday.length%> others Birthday!</a>
+        <p>Leave them a message with your best wishes on their profile page!</p>
+        <%
+        }else{
+        %>
+        <a href="#" class="h4 title"><%=birthday[0].users.firstname%> <%=birthday[0].users.lastname%>’s Birthday!</a>
+        <p>Leave <%=title%> a message with your best wishes on <%=ref%> profile page!</p>
+        <%
+        }
+        %>
+        
+    </div>
+</div>
+
+<!-- ... end W-Birthsday-Alert -->			</div>
+<%}%>
