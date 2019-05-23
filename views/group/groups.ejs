@@ -1,0 +1,730 @@
+<% include ../partials/head%>
+<div class="header-spacer header-spacer-small"></div>
+
+
+<div class="main-header">
+    <div class="content-bg-wrap bg-group"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col col-lg-8 m-auto col-md-8 col-sm-12 col-12">
+                <div class="main-header-content">
+                    <h1>Manage your Friend Groups</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque aut, id alias, atque, cupiditate est
+                        itaque, nemo doloribus necessitatibus perspiciatis consequuntur vero deserunt asperiores expedita
+                        ex fugit. Deserunt in illo, nesciunt magnam aspernatur tenetur deleniti!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <img class="img-bottom" src="img/group-bottom.png" alt="friends">
+</div>
+
+    <div class="container">
+        <div class="row">
+				<div id="viewpost" style=""></div>
+				<div id="sharepost" style=""></div>
+            <div class="col col-xl-8 order-xl-2 col-lg-8 order-lg-2 col-md-12 order-md-1 col-sm-12 col-12">
+                <div class="ui-block">
+                    <div class="ui-block-title">
+                        <h6 class="title">Group Feeds</h6>
+                        <a href="#" class="more">
+                            <svg class="olymp-three-dots-icon">
+                                <use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+
+
+                    <!-- Notification List -->
+					<%
+					for (const [key, value] of Object.entries(Feeds)) {
+						var file = '';
+					%>
+	
+	
+	
+	
+	
+	
+	
+					
+					<!--
+					////////////////// START OF POST lOOP/////////////////////////////////
+					-->
+	
+					<%
+					if(typeof value.posts === 'object' && typeof value.timelines.Tip !== 'undefined'){
+					%>
+	
+					<div class="ui-block">
+						<!-- Post -->
+						
+						<article class="hentry post has-post-thumbnail shared-photo">
+						
+								<div class="post__author author vcard inline-items">
+									<img src="/images/users_profile_pictures/<%=value.alternates[0].avatar%>" alt="author">
+						
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="userprofile.php"><%=value.alternates[0].firstname%> <%=value.alternates[0].lastname%></a> shared
+										<a href="#"><%=value.users.firstname%> <%=value.users.lastname%></a>’s <a href="#">post</a>
+										
+										<% if(Interior._id === value.timelines.to_author) { %>
+							
+										To your Timeline
+										<% } %>
+										
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												<%=value.timelines.time%>
+											</time>
+										</div>
+									</div>
+						
+									<div class="more">
+										<svg class="olymp-three-dots-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+										</svg>
+										<ul class="more-dropdown">
+											<li>
+												<a href="#">Edit Post</a>
+											</li>
+											<li>
+												<a href="#">Delete Post</a>
+											</li>
+											<li>
+												<a href="#">Turn Off Notifications</a>
+											</li>
+											<li>
+												<a href="#">Select as Featured</a>
+											</li>
+										</ul>
+									</div>
+						
+								</div>
+						
+								<p><%=value.timelines.Tip%></p>
+						
+								<%
+								if(value.posts.Media.File.length > 0){
+									file = value.posts.Media.File[0].File;
+								%>
+								<div class="post-thumb"  onclick="return client.panel('<%=value.timelines._id%>')" ondblclick="return like('<%=value.metaactivities._id%>')">
+								<%
+								if(value.posts.Media.File[0].Type === 'video'){
+								%>
+								<span class="play-video">
+									<svg class="olymp-play-icon">
+										<use xlink:href="svg-icons/sprites/icons.svg#olymp-play-icon"></use>
+									</svg>
+								</span>
+									<video style="background-size:cover;background-position:center;background-repeat:no-repeat;width: 100%;height: 100%" src="/images/post/<%=value.posts.Media.File[0].File%>" alt="photo">
+										
+								<%
+								}else{
+								%>
+									<img src="/images/post/<%=value.posts.Media.File[0].File%>" alt="photo">
+								<%
+								}
+								%>
+								</div>
+								<%
+								}
+								%>
+						
+								<ul class="children single-children">
+									<li class="comment-item">
+										<div class="post__author author vcard inline-items">
+											<img src="/images/users_profile_pictures/<%=value.users.avatar%>" alt="author">
+											<div class="author-date">
+												<a class="h6 post__author-name fn" href="#"><%=value.users.firstname%> <%=value.users.lastname%></a>
+												<div class="post__date">
+													<time class="published" datetime="2017-03-24T18:18">
+														<%=value.posts.time%>
+													</time>
+												</div>
+											</div>
+										</div>
+						
+										<p style="font-size: <%=value.posts.postcontent[0].fontsize%>; text-align: center"><%=value.posts.postcontent[0].text%></p>
+									</li>
+								</ul>
+						
+								<div class="post-additional-info inline-items">
+						
+									<a href="return client.like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
+										<svg class="olymp-heart-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+										</svg>
+										<span><%=value.metaactivities.Activities.Likes.length%></span>
+									</a>
+						
+									<ul class="friends-harmonic">
+											<%
+											var show=0;
+											var like = value.metaactivities.Activities.Likes.length;
+											for (const [lik, like] of Object.entries(value.metaactivities.Activities.Likes)) {
+												show++;
+												if(show === 4){
+													break;
+													
+												}
+												
+											%>
+										<li>
+											<a href="#">
+												<img src="/images/users_profile_pictures/<%=like.pack.avatar%>" alt="friend">
+											</a>
+										</li>
+										<%
+											}
+										%>
+									</ul>
+						
+									<div class="names-people-likes">
+											<% if(like > 0){ %>
+										<a href="#"><%=value.metaactivities.Activities.Likes[0].pack.firstname%></a>, 
+										<a href="#"><%=value.metaactivities.Activities.Likes[0].pack.lastname%></a> 
+
+										<% if(like > 1){ %>
+											and
+										<br><%=like - 1%> more  
+										<% } %>
+										liked this
+										<% } else { %>
+											Be the first to like this
+										<%}%>
+										
+									</div>
+						
+						
+									<div class="comments-shared">
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-speech-balloon-icon">
+												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon"></use>
+											</svg>
+											<span><%=value.metaactivities.Activities.comments.length%></span>
+										</a>
+						
+										<a onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
+											<svg class="olymp-share-icon">
+												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+											</svg>
+											<span><%=value.metaactivities.Activities.shares.length%></span>
+										</a>
+									</div>
+						
+						
+								</div>
+						
+								<div class="control-block-button post-control-button">
+						
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-like-post-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-comments-post-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control">
+										<svg class="olymp-share-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+										</svg>
+									</a>
+						
+								</div>
+								<div class="control-block-button post-control-button">
+						
+									<a href="#" class="btn btn-control featured-post">
+										<svg class="olymp-trophy-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use>
+										</svg>
+									</a>
+						
+									<a href="/post/like/<%=value.metaactivities._id%>" class="btn btn-control">
+										<svg class="olymp-like-post-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-comments-post-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control" data-toggle="modal" data-target="#choose-from-my-photo">
+										<svg class="olymp-share-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+										</svg>
+									</a>
+						
+								</div>
+						
+							</article>
+													<!--
+							//////////////////START COMMENT DIALOG/////////////////////////////////
+							-->
+							<%
+							i=2
+							if(value.metaactivities.Activities.comments.length > 0){
+							%>
+	
+							
+							<!-- Comments -->
+						
+						<ul class="comments-list">
+							<%
+							var show=0;
+							for (const [ke, comment] of Object.entries(value.metaactivities.Activities.comments)) {
+								show++;
+								if(show === 4){
+									break;
+									
+								}
+								
+							%>
+							<% var background = Interior._id === comment.judge ? '#f7f7f7' : ''; %>
+							<li style="background:<%=background%>" class="comment-item">
+								<div class="post__author author vcard inline-items">
+									<img src="/images/users_profile_pictures/<%=comment.pack.avatar%>" alt="author">
+						
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="#"><%=comment.pack.firstname%> <%=comment.pack.lastname%></a>
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												<%=comment.time%>
+											</time>
+										</div>
+									</div>
+						
+									<a href="#" class="more">
+										<svg class="olymp-three-dots-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+										</svg>
+									</a>
+						
+								</div>
+						
+								<p style="font-size: 17px;"><%=comment.text%></p>
+						
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-heart-icon">
+										<use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+									</svg>
+									<span>8</span>
+								</a>
+								<a href="#" class="reply">Reply</a>
+							</li>
+							<%}%>
+						</ul>
+						
+						<!-- ... end Comments -->
+						<a href="#" class="more-comments">View more comments <span>+</span></a>
+						
+						<!-- Comment Form  -->
+						
+						<form id="comm"  action="/post/comment_on" class="comment-form inline-items" method="POST">
+						
+							<div class="post__author author vcard inline-items">
+								<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author">
+						
+								<div class="form-group with-icon-right ">
+									<textarea id="comment" name="text" class="form-control" placeholder=""></textarea>
+									<input id="id" name="id" value="<%=Feed.metaactivities._id%>" hidden/>
+									<div class="add-options-message">
+										<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
+											<svg class="olymp-camera-icon">
+												<use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
+											</svg>
+										</a>
+									</div>
+								</div>
+							</div>
+						
+							<button type="submit" class="btn btn-md-2 btn-primary">Post Comment</button>
+						
+							<button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+						
+						</form>
+						
+						<!-- ... end Comment Form  -->
+							<!--
+								////////////////// END COMMENT DIALOG/////////////////////////////////
+							-->
+							<%}%>
+						
+						<!-- .. end Post -->				</div>
+	
+					<%
+					}
+					%>
+	
+	
+	
+	
+					<%
+					if(typeof value.posts === 'object' && typeof value.timelines.Tip === 'undefined'){
+						var p =  JSON.stringify(value);
+					%>
+					<div class="ui-block">
+						<!-- Post -->
+						
+						<article class="hentry post feed-box">
+						
+								<div class="post__author author vcard inline-items feed-child">
+									<img src="/images/users_profile_pictures/<%=value.users.avatar%>" alt="author">
+						
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="userprofile.php"><%=value.users.firstname+' '+value.users.lastname%></a> => <a class="h6 post__author-name fn"><%=Group[0].groupName%></a>
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												<%=value.posts.time%>
+											</time>
+										</div>
+									</div>
+						
+									<div class="more">
+										<svg class="olymp-three-dots-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+										</svg>
+										<ul class="more-dropdown">
+											<li>
+												<a href="#">Edit Post</a>
+											</li>
+                                            <%
+                                            
+                                            if(value.posts.author.toString === value.users._id){
+                                            %>
+											<li>
+												<a href="post/delete/<%=value.timelines._id%>">Delete Post</a>
+											</li>
+                                            <%}%>
+											<li>
+												<a href="#">Turn Off Notifications</a>
+											</li>
+											<li>
+												<a href="#">Select as Featured</a>
+											</li>
+										</ul>
+									</div>
+						
+								</div>
+	
+								<%
+								if(value.posts.Media.File.length > 0){
+									file = value.posts.Media.File[0].File;
+								%>
+								<div class="post-thumb" onclick="return client.panel('<%=p%>','<%=value.timelines._id%>')"  ondblclick="return client.like('<%=value.metaactivities._id%>')">
+								<%
+								if(value.posts.Media.File[0].Type === 'video'){
+								%>
+								<span  class="play-video">
+									<svg class="olymp-play-icon">
+										<use xlink:href="svg-icons/sprites/icons.svg#olymp-play-icon"></use>
+									</svg>
+								</span>
+									<video style="background-size:cover;background-position:center;background-repeat:no-repeat;width: 100%;height: 100%;padding:0px;" src="/images/post/<%=value.posts.Media.File[0].File%>"  alt="photo">
+								<%
+								}else{
+								%>
+									<img style="" src="/images/post/<%=value.posts.Media.File[0].File%>" alt="photo">
+								<%
+								}
+								%>
+								</div>
+								<%
+								}
+								%>
+								<p style="font-size: <%=value.posts.postcontent[0].fontsize%>; text-align: center"><%=value.posts.postcontent[0].text%></p>
+								<div class="feed-child" id="<%=value.metaactivities._id%>">
+								<div class="post-additional-info inline-items">
+						
+									<a onclick="return client.like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
+										<svg class="olymp-heart-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+										</svg>
+										<span><%=value.metaactivities.Activities.Likes.length%></span>
+									</a>
+						
+									<ul class="friends-harmonic">
+											<%
+											var show=0;
+											var like = value.metaactivities.Activities.Likes.length;
+											for (const [lik, like] of Object.entries(value.metaactivities.Activities.Likes)) {
+												show++;
+												if(show === 4){
+													break;
+													
+												}
+												
+											%>
+										<li>
+											<a href="#">
+												<img src="/images/users_profile_pictures/<%=like.pack.avatar%>" alt="friend">
+											</a>
+										</li>
+										<%
+											}
+										%>
+									</ul>
+						
+									<div class="names-people-likes">
+											<% if(like > 0){ %>
+										<a href="#"><%=value.metaactivities.Activities.Likes[0].pack.firstname%></a>, 
+										<a href="#"><%=value.metaactivities.Activities.Likes[0].pack.lastname%></a> 
+
+										<% if(like > 1){ %>
+											and
+										<br><%=like - 1%> more  
+										<% } %>
+										liked this
+										<% } else { %>
+											Be the first to like this
+										<%}%>
+										
+									</div>
+						
+						
+									<div class="comments-shared">
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-speech-balloon-icon">
+												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-speech-balloon-icon"></use>
+											</svg>
+											<span><%=value.metaactivities.Activities.comments.length%></span>
+										</a>
+						
+										<a  onclick="return client.share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
+											<svg class="olymp-share-icon">
+												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+											</svg>
+											<span><%=value.metaactivities.Activities.shares.length%></span>
+										</a>
+									</div>
+						
+						
+								</div>
+							</div>
+						
+								<div class="control-block-button post-control-button">
+						
+									<a href="#" class="btn btn-control featured-post">
+										<svg class="olymp-trophy-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-trophy-icon"></use>
+										</svg>
+									</a>
+<!--						         /post/like/<=value.metaactivities._id%     -->
+									<a onclick="return client.like('<%=value.metaactivities._id%>')" class="btn btn-control">
+										<svg class="olymp-like-post-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-comments-post-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-comments-post-icon"></use>
+										</svg>
+									</a>
+						
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="btn btn-control">
+										<svg class="olymp-share-icon">
+											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
+										</svg>
+									</a>
+						
+								</div>
+						
+							</article>
+	
+							<!--
+							//////////////////START COMMENT DIALOG/////////////////////////////////
+							-->
+							<%
+							i=2
+							if(value.metaactivities.Activities.comments.length > 0){
+							%>
+	
+							
+							<!-- Comments -->
+						
+						<ul class="comments-list">
+							<%
+							var show=0;
+							for (const [ke, comment] of Object.entries(value.metaactivities.Activities.comments)) {
+								show++;
+								if(show === 4){
+									break;
+									
+								}
+								
+							%>
+							<% var background = Interior._id === comment.judge ? '#f7f7f7' : ''; %>
+							<li style="background:<%=background%>" class="comment-item">
+								<div class="post__author author vcard inline-items row">
+									<img src="/images/users_profile_pictures/<%=comment.pack.avatar%>" alt="author">
+						
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="#"><%=comment.pack.firstname%> <%=comment.pack.lastname%></a>
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												<%=comment.time%>
+											</time>
+										</div>
+									</div>
+						
+									<a href="#" class="more">
+										<svg class="olymp-three-dots-icon">
+											<use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use>
+										</svg>
+									</a>
+						
+								</div>
+						
+								<p style="font-size: 17px;"><%=comment.text%></p>
+						
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="olymp-heart-icon">
+										<use xlink:href="svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
+									</svg>
+									<span>8</span>
+								</a>
+								<a href="#" class="reply">Reply</a>
+							</li>
+							<%}%>
+						</ul>
+						
+						<!-- ... end Comments -->
+						<a href="#" class="more-comments">View more comments <span>+</span></a>
+						
+						<!-- Comment Form  -->
+						
+						<form class="comment-form inline-items">
+							
+								<div class="post__author author vcard inline-items">
+									<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author">
+							
+									<div class="form-group with-icon-right ">
+										<textarea id="<%=value.metaactivities._id%>comment" name="text" class="form-control" placeholder=""></textarea>
+										
+										<div class="add-options-message">
+											<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
+												<svg class="olymp-camera-icon">
+													<use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
+												</svg>
+											</a>
+										</div>
+									</div>
+								</div>
+							
+								<button onclick="return client.comment('<%=value.metaactivities._id%>', '<%=Interior.avatar%>', '<%=Interior.firstname%>', '<%=Interior.lastname%>')" type="button" class="btn btn-md-2 btn-primary">Post Comment</button>
+							
+								<button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+							
+							</form>
+						
+						<!-- ... end Comment Form  -->
+							<!--
+								////////////////// END COMMENT DIALOG/////////////////////////////////
+							-->
+							<%}%>
+	
+	
+	
+	
+	
+						
+					</div>
+						<%}%>
+						<!--
+							////////////////// END OF POST lOOP/////////////////////////////////
+						-->
+						<%}%>
+
+                    <!-- ... end Notification List -->
+
+                </div>
+            </div>
+            <% include groupSide%>
+        </div>
+    </div>
+
+    <!-- Window-popup Create Group Post -->
+
+    <div class="modal fade" id="create-friend-group-1" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-1" aria-hidden="true">
+        <div class="modal-dialog window-popup create-friend-group create-friend-group-1" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
+                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                    </svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Create Post</h6>
+                </div>
+
+                <div class="modal-body">
+                    <form method="POST" action="/post" enctype="multipart/form-data">
+                        <input type="hidden" name="inhuman" value="<%=Group[0]._id%>">
+                        <div class="form-group with-button">
+                            <textarea class="form-control" name="postcontent">
+
+                            </textarea>
+                        </div>
+
+                        <div class="form-group with-button">
+                            <input type="file" class="form-control" name="file" multiple="">
+                        </div>
+
+                        <div class="form-group with-button">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="group" name="">Share In Your Timeline</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-blue btn-lg full-width" id="create">Create Post</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ... end Window-popup Create Group Post -->
+
+    <!-- Window-popup Create Group Admin -->
+    
+    <div class="modal fade" id="assignAdmin" tabindex="-1" role="dialog" aria-labelledby="create-friend-group-1" aria-hidden="true">
+        <div class="modal-dialog window-popup create-friend-group assignAdmin" role="document">
+            <div class="modal-content">
+                <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+                    <svg class="olymp-close-icon">
+                        <use xlink:href="svg-icons/sprites/icons.svg#olymp-close-icon"></use>
+                    </svg>
+                </a>
+                <div class="modal-header">
+                    <h6 class="title">Create Group Admin For
+                        
+                    </h6>
+                </div>
+    
+                <div class="modal-body">
+                    <form method="POST" action="/group/addAdmins">
+                        <input type="hidden" name="gname" value="">
+                        <div class="form-group with-button">
+                            <input type="text" name="buddy" placeholder="enter Buddy Account">
+                        </div>
+                        <button type="submit" class="btn btn-blue btn-lg full-width" id="create">Create Admin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ... end Window-popup Create Group Admin -->
+
+    <% include ../partials/footer%>
