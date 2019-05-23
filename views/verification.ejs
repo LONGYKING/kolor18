@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="index, follow">
+		<title>Social Network</title>
+
+    <!-- Stylesheets -->
+		<link rel="stylesheet" href="/stylesheet/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/stylesheet/css/style.css">
+		<link rel="stylesheet" href="/stylesheet/css/ionicons.min.css">
+    <link rel="stylesheet" href="/stylesheet/css/font-awesome.min.css">
+    
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="">
+	</head>
+	<body>
+
+    <!-- REGISTERATION PAGE
+    ================================================= -->
+    <div id="lp-register">
+        <div class="container wrapper">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="intro-texts">
+                        <h1 class="text-white">Make Cool Friends !!!</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus nobis qui minus, earum! Nostrum
+                            aut amet corrupti inventore dolorem et deserunt magni tempore accusamus obcaecati facere tempora
+                            optio quibusdam maxime dolor modi, eaque sapiente omnis fugit eveniet dicta harum porro ut ducimus?
+                            Consectetur rem laborum perspiciatis ipsum molestiae inventore praesentium accusamus.</p>
+                        <button class="btn btn-primary">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-sm-offset-1">
+                    <div class="reg-form-container">
+
+                        <!-- Register/Login Tabs-->
+                        <div class="reg-options">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#login" data-toggle="tab">Account</a>
+                                </li>
+                            </ul>
+                            <!--Tabs End-->
+                        </div>
+
+                        <div class="tab-content">
+                            <!--Login-->
+                            <div class="tab-pane active" id="login">
+                                <h3>Account Verification</h3>
+                                <p class="text-muted">Enter the Code Sent To Your Phone</p>
+
+                                <!--Login Form-->
+                                <form method="POST" name="Login_form" id='Login_form' action="/verify">
+                                    <div class="row">
+                                        <div class="form-group col-xs-12">
+                                            <label for="my-code" class="sr-only">Verification Code</label>
+                                            <input id="my-code" class="form-control input-group-lg" type="text" name="code" title="Verification Code" placeholder="Verification Code"
+                                            />
+                                        </div>
+                                    </div>
+                                    <button class="butle">Continue</button>
+                                </form>
+                                <% if (message != '') { %>
+                                    <p class="text-center text-danger">
+                                        <%= message %>
+                                    </p>
+                                    <% } %>
+                                <!--Login Form Ends-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-6">
+
+                    <!--Social Icons-->
+                    <ul class="list-inline social-icons">
+                        <li>
+                            <a href="#">
+                                <i class="icon ion-social-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="icon ion-social-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="icon ion-social-googleplus"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="icon ion-social-pinterest"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="icon ion-social-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+        <div class="spinner"></div>
+      </div>
+  
+      <!-- Scripts
+      ================================================= -->
+      <script src="/javascripts/js/jquery-3.1.1.min.js"></script>
+      <script src="/javascripts/js/bootstrap.min.js"></script>
+      <script src="/javascripts/js/jquery.appear.min.js"></script>
+          <script src="/javascripts/js/jquery.incremental-counter.js"></script>
+      <script src="/javascripts/js/script.js"></script>
+
+      <script>
+    var verify = function(){
+    $.ajax({
+
+        method: 'GET',
+        url   : '/post/like/'+code
+
+    }).done(function (data) {
+
+        if(data === 'true'){
+            window.location('/');
+        } else {
+            alert('invalid code');
+        }
+
+    }).fail(function (data) {
+
+        alert("failed");
+
+    })
+}
+      </script>
+      
+      </body>
+  </html>
