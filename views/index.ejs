@@ -1,12 +1,13 @@
 <% include partials/head%>
 
+
 <div class="header-spacer"></div>
-<div class="container-fluid"  style="">
+<div class="container" style="">
 	<div id="sideoo" class="row">
 
 		<!-- Main Content -->
 
-		<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12" style="padding: 0px;">
+		<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12" style="">
 				
 
 			<div class="ui-block">
@@ -21,7 +22,7 @@
 				
 								<svg class="olymp-status-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-status-icon"></use></svg>
 				
-								<span>Status</span>
+								<span onclick="">Status</span>
 							</a>
 						</li>
 						
@@ -29,27 +30,28 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-							<form action="/post" method="post" enctype="multipart/form-data">
+							<form id="how_you_feel">
 								<div class="author-thumb">
 									<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author" class="avatar" style="width:40px;height:40px;">
 								</div>
 								<div class="form-group with-icon label-floating is-empty">
 									<label class="control-label">Share what you are thinking here...</label>
-									<textarea name="postcontent" class="form-control" placeholder=""></textarea>
+									<textarea name="postcontent" class="form-control" placeholder="" style="margin-top: 40px;"></textarea>
 								</div>
+								
 								<div class="add-options-message">
-									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="ADD PHOTOS">
+									<a onclick="" href="#" class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="ADD PHOTOS">
 										<svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo"><use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use></svg>
 									</a>
 									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="TAG YOUR FRIENDS">
 										<svg class="olymp-computer-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-computer-icon"></use></svg>
 									</a>
-				
+									
 									<a href="#" class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="ADD LOCATION">
 										<svg class="olymp-small-pin-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-small-pin-icon"></use></svg>
 									</a>
 				
-									<button type="submit" class="btn btn-primary btn-md-2">Post Status</button>
+									<button type="submit" class="btn btn-primary btn-md-2" id="submit">Post Status</button>
 									
 								</div>
 
@@ -72,7 +74,7 @@
 
 				<h6>Upload Photo</h6>
 				<span>Browse your computer.</span>
-				<input type="file" name="file" multiple/>
+				<input type="file" name="file" multiple=""/>
 			</a>
 
 				<a href="#" class="upload-photo-item" data-toggle="modal" data-target="#choose-from-my-photo">
@@ -153,10 +155,53 @@
 				</div>
 				
 				<!-- ... end News Feed Form  -->			</div>
-				<div id="viewpost"></div>
+				<div id="viewpost" style=""></div>
+				<div id="sharepost" style=""></div>
 
 				<div id="newsfeed-items-grid">
 					<div id="return"></div>
+					<div class="ui-block">
+					<article class="hentry post has-post-thumbnail shared-photo">
+							<div class="ui-block-title">
+									<h6 class="title">Pages You May Like</h6>
+									<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-three-dots-icon"></use></svg></a>
+								</div>
+							<ul class="widget w-friend-pages-added notification-list friend-requests  mCustomScrollbar" style="width:auto; position: relative;">
+						<div class="row">
+								
+									<li class="inline-items">
+										<div class="author-thumb">
+											<img src="/images/img/avatar1-sm.jpg" alt="author">
+										</div>
+										<div class="notification-event">
+											<a href="#" class="h6 notification-friend">Soma Agency</a>
+											<span class="chat-message-item">Company</span>
+										</div>
+										<span class="notification-icon" data-toggle="tooltip" data-placement="top" data-original-title="ADD TO YOUR FAVS">
+											<a href="#">
+												<svg class="olymp-star-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
+											</a>
+										</span>
+									</li>
+								
+									<li class="inline-items">
+										<div class="author-thumb">
+											<img src="/images/img/avatar1-sm.jpg" alt="author">
+										</div>
+										<div class="notification-event">
+											<a href="#" class="h6 notification-friend">Sarah Soma</a>
+											<span class="chat-message-item">Clothing Store</span>
+										</div>
+										<span class="notification-icon" data-toggle="tooltip" data-placement="top" data-original-title="ADD TO YOUR FAVS">
+											<a href="#">
+												<svg class="olymp-star-icon"><use xlink:href="svg-icons/sprites/icons.svg#olymp-star-icon"></use></svg>
+											</a>
+										</span>
+									</li>
+						</div>
+					</ul>
+					</article>
+				</div>
 					<%
 					for (const [key, value] of Object.entries(Feeds)) {
 						var file = '';
@@ -229,7 +274,7 @@
 								if(value.posts.Media.File.length > 0){
 									file = value.posts.Media.File[0].File;
 								%>
-								<div class="post-thumb"  onclick="return panel('<%=value.timelines._id%>')" ondblclick="return window.location='/post/like/<%=value.metaactivities._id%>'">
+								<div class="post-thumb"  onclick="return client.panel('<%=value.timelines._id%>')" ondblclick="return like('<%=value.metaactivities._id%>')">
 								<%
 								if(value.posts.Media.File[0].Type === 'video'){
 								%>
@@ -272,7 +317,7 @@
 						
 								<div class="post-additional-info inline-items">
 						
-									<a href="return like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
+									<a href="return client.like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
 										<svg class="olymp-heart-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
 										</svg>
@@ -326,7 +371,7 @@
 											<span><%=value.metaactivities.Activities.comments.length%></span>
 										</a>
 						
-										<a onclick="return share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
+										<a onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
 											<svg class="olymp-share-icon">
 												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
 											</svg>
@@ -351,7 +396,7 @@
 										</svg>
 									</a>
 						
-									<a   onclick="return share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control">
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control">
 										<svg class="olymp-share-icon">
 											<use xlink:href="svg-icons/sprites/icons.svg#olymp-share-icon"></use>
 										</svg>
@@ -378,7 +423,7 @@
 										</svg>
 									</a>
 						
-									<a   onclick="return share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control" data-toggle="modal" data-target="#choose-from-my-photo">
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>','<%=value.posts.postcontent[0].text%>','<%=file%>')" data-toggle="modal" data-target="#choose-from-my-photo"  class="btn btn-control" data-toggle="modal" data-target="#choose-from-my-photo">
 										<svg class="olymp-share-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
 										</svg>
@@ -449,13 +494,14 @@
 						
 						<!-- Comment Form  -->
 						
-						<form action="/post/comment_on/<%=value.metaactivities._id%>" class="comment-form inline-items" method="POST">
+						<form id="comm"  action="/post/comment_on" class="comment-form inline-items" method="POST">
 						
 							<div class="post__author author vcard inline-items">
 								<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author">
 						
 								<div class="form-group with-icon-right ">
-									<textarea name="text" class="form-control" placeholder=""></textarea>
+									<textarea id="comment" name="text" class="form-control" placeholder=""></textarea>
+									<input id="id" name="id" value="<%=Feed.metaactivities._id%>" hidden/>
 									<div class="add-options-message">
 										<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
 											<svg class="olymp-camera-icon">
@@ -494,9 +540,9 @@
 					<div class="ui-block">
 						<!-- Post -->
 						
-						<article class="hentry post" style="padding: 0px;">
+						<article class="hentry post feed-box">
 						
-								<div class="post__author author vcard inline-items" style="padding: 25px;">
+								<div class="post__author author vcard inline-items feed-child">
 									<img src="/images/users_profile_pictures/<%=value.users.avatar%>" alt="author">
 						
 									<div class="author-date">
@@ -539,7 +585,7 @@
 								if(value.posts.Media.File.length > 0){
 									file = value.posts.Media.File[0].File;
 								%>
-								<div class="post-thumb" onclick="return panel('<%=p%>')"  ondblclick="return like('<%=value.metaactivities._id%>')">
+								<div class="post-thumb" onclick="return client.panel('<%=p%>','<%=value.timelines._id%>')"  ondblclick="return client.like('<%=value.metaactivities._id%>')">
 								<%
 								if(value.posts.Media.File[0].Type === 'video'){
 								%>
@@ -548,11 +594,11 @@
 										<use xlink:href="svg-icons/sprites/icons.svg#olymp-play-icon"></use>
 									</svg>
 								</span>
-									<video style="background-size:cover;background-position:center;background-repeat:no-repeat;width: 100%;height: 100%" src="/images/post/<%=value.posts.Media.File[0].File%>"  alt="photo">
+									<video style="background-size:cover;background-position:center;background-repeat:no-repeat;width: 100%;height: 100%;padding:0px;" src="/images/post/<%=value.posts.Media.File[0].File%>"  alt="photo">
 								<%
 								}else{
 								%>
-									<img src="/images/post/<%=value.posts.Media.File[0].File%>" alt="photo">
+									<img style="" src="/images/post/<%=value.posts.Media.File[0].File%>" alt="photo">
 								<%
 								}
 								%>
@@ -561,10 +607,10 @@
 								}
 								%>
 								<p style="font-size: <%=value.posts.postcontent[0].fontsize%>; text-align: center"><%=value.posts.postcontent[0].text%></p>
-								<div id="<%=value.metaactivities._id%>" style="padding: 25px;">
+								<div class="feed-child" id="<%=value.metaactivities._id%>">
 								<div class="post-additional-info inline-items">
 						
-									<a onclick="return like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
+									<a onclick="return client.like('<%=value.metaactivities._id%>')" class="post-add-icon inline-items">
 										<svg class="olymp-heart-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-heart-icon"></use>
 										</svg>
@@ -618,7 +664,7 @@
 											<span><%=value.metaactivities.Activities.comments.length%></span>
 										</a>
 						
-										<a  onclick="return share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
+										<a  onclick="return client.share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="post-add-icon inline-items">
 											<svg class="olymp-share-icon">
 												<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
 											</svg>
@@ -638,7 +684,7 @@
 										</svg>
 									</a>
 <!--						         /post/like/<=value.metaactivities._id%     -->
-									<a onclick="return like('<%=value.metaactivities._id%>')" class="btn btn-control">
+									<a onclick="return client.like('<%=value.metaactivities._id%>')" class="btn btn-control">
 										<svg class="olymp-like-post-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-like-post-icon"></use>
 										</svg>
@@ -650,7 +696,7 @@
 										</svg>
 									</a>
 						
-									<a   onclick="return share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="btn btn-control">
+									<a   onclick="return client.share_dialog('<%=value.posts._id%>')" data-toggle="modal" data-target="#choose-from-my-photo" class="btn btn-control">
 										<svg class="olymp-share-icon">
 											<use xlink:href="/svg-icons/sprites/icons.svg#olymp-share-icon"></use>
 										</svg>
@@ -684,7 +730,7 @@
 							%>
 							<% var background = Interior._id === comment.judge ? '#f7f7f7' : ''; %>
 							<li style="background:<%=background%>" class="comment-item">
-								<div class="post__author author vcard inline-items">
+								<div class="post__author author vcard inline-items row">
 									<img src="/images/users_profile_pictures/<%=comment.pack.avatar%>" alt="author">
 						
 									<div class="author-date">
@@ -704,7 +750,7 @@
 						
 								</div>
 						
-								<p style="font-size: 17px;"><%=comment.text%></p>
+								<p style="font-size: 17px;"><%=comment.text%> </p> 
 						
 								<a href="#" class="post-add-icon inline-items">
 									<svg class="olymp-heart-icon">
@@ -715,6 +761,7 @@
 								<a href="#" class="reply">Reply</a>
 							</li>
 							<%}%>
+							<div id="comett<%=value.metaactivities._id%>"></div>
 						</ul>
 						
 						<!-- ... end Comments -->
@@ -722,26 +769,26 @@
 						
 						<!-- Comment Form  -->
 						
-						<form action="/post/comment_on/<%=value.metaactivities._id%>" class="comment-form inline-items" method="POST">
+						<form class="comment-form inline-items">
 						
 							<div class="post__author author vcard inline-items">
 								<img src="/images/users_profile_pictures/<%=Interior.avatar%>" alt="author">
 						
 								<div class="form-group with-icon-right ">
-									<textarea name="text" class="form-control" placeholder=""></textarea>
+									<textarea id="<%=value.metaactivities._id%>comment" name="text" class="form-control" placeholder=""></textarea>
+									
 									<div class="add-options-message">
 										<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
 											<svg class="olymp-camera-icon">
 												<use xlink:href="svg-icons/sprites/icons.svg#olymp-camera-icon"></use>
 											</svg>
 										</a>
+										
 									</div>
 								</div>
 							</div>
 						
-							<button type="submit" class="btn btn-md-2 btn-primary">Post Comment</button>
-						
-							<button class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Cancel</button>
+							<button onclick="return client.comment('<%=value.metaactivities._id%>', '<%=Interior.avatar%>', '<%=Interior.firstname%>', '<%=Interior.lastname%>')" type="button" class="btn btn-md-2 btn-primary">Post Comment</button>
 						
 						</form>
 						
@@ -826,7 +873,7 @@
 						
 								<div class="post-video">
 									<div class="video-thumb">
-										<img src="img/avatar1-sm.jpg" alt="photo">
+										<img style="" src="/images/img/avatar1-sm.jpg" alt="photo">
 										<a href="https://youtube.com/watch?v=excVFQ2TWig" class="play-video">
 											<svg class="olymp-play-icon">
 												<use xlink:href="svg-icons/sprites/icons.svg#olymp-play-icon"></use>
@@ -1411,11 +1458,28 @@
 	<div class="spinner"></div>
   </div>
 
-  
-  
-<% include partials/footer%>
+  <% include partials/footer%>
 <script>
 	Load();
+	$('#comm').submit(function(e) {
+        e.preventDefault();
+
+        var text = ('#comment').val();
+        var id = ('#id').val();
+        $.ajax({
+            method: 'POST',
+            url   : '/post/comment_on',
+            data  : {
+                text : text,
+                id   : id
+            }
+        }).done(function (data) {
+            alert(data);
+        }).fail(function (data) {
+            alert("failed");
+        });
+
+        });
 </script>
 
 
