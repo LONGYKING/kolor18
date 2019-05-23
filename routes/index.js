@@ -1,13 +1,15 @@
 var express = require('express');
 var _       = require('lodash');
+const mailer   = require('nodemailer');
 var router  = express.Router();
 
-var user    = require('../models/usermodel');
+var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
 var auth    = require('../middleware/auth');
 var alt     = require('../models/AlternateModel');
 var {GetFriendRequests} = require('../models/RelationModel');
+var Failed  = require('../languages/success');
 
 /* GET home page. */
 router.get('/@/:id', auth.authenticate,auth.finduser, function(req, res, next) {
@@ -60,7 +62,9 @@ router.get('/photo_of/:id', auth.authenticate,auth.finduser, function(req, res, 
 });
 
 router.get('/', auth.authenticate, function(req, res, next) {
+  
   feeds.findByInterest(req.InteriorUser._id).then((Feeds) => {
+    
     Interior   = req.InteriorUser;
     
       res.render('index',{
@@ -71,32 +75,58 @@ router.get('/', auth.authenticate, function(req, res, next) {
     });
 });
 
-
+router.get('/test', function(req, res, next){
+ res.sendFile('index.ejs');
+});
 
 router.get('/register', auth.active, function(req, res, next){
   res.render('register');
 });
 
 router.get('/auth', auth.authenticate, function(req, res, next){
+  let transporter = mailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'kingsleyonyeneke@gmail.com',
+        pass: '09034128815'
+    }
+});
+let mailOptions = {
+    from: 'InstaTrend@gmail.com', // sender address
+    to: req.InteriorUser.email, // list of receivers
+    subject:  'VERIFICATION',
+    text: `YOUR VERIFICATION CODE => ${req.session.code}`, // plain text body
+    html: `<b>Hello ${req.InteriorUser.firstname} <br> your verification code => ${code}</b>` // html body
+};
 
-  var alternate = new alt(req.InteriorUser.toJSON());
-
-  alternate.save().then(() => {
-    res.render('verify');
-  });
+transporter.sendMail(mailOptions, (error, info) => {
+  var message = error;
+    if (error) {
+        console.log(error);
+        return res.send(error);
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response);
+    res.render('verification',{message});
+    });
 });
 
 router.post('/register', function(req, res, next){
-
+  req.body.avatar = req.body.Gender == 'male' ? 'male.png' : 'female.png';
   var u = new user(req.body);
-  u.save().then((u) => {
+  u.save().then((user) => {
+    var alternate = new alt(user.toJSON());
+    alternate.save();
     return u.generateAuthToken();
   }).then((token) => {
 
     req.session.x_auth = token;
+    req.session.code = Math.floor(Math.random() * (max - min + 1)) + min + Math.random();;
     res.header('x-auth', token).redirect('/auth');
   }).catch((e) => {
-    res.status(400).redirect('/register');
+    return res.send(e);
+    res.status(400).redirect('/register',{e});
   });
 });
 
@@ -108,10 +138,11 @@ router.post('/login', (req, res) => {
   user.findByCredentials(body.Email, body.Password).then((user) => {
     return user.generateAuthToken().then((token) => {
       req.session.x_auth = token;
-      res.redirect('/');
+      res.header('x-auth', token).redirect('/');
     });
   }).catch((e) => {
-    res.status(400).redirect('/register#login');
+    var error  = Failed.ToLogin;
+    res.status(400).redirect('/register', 400, {error});
   });
 });
 module.exports = router;
