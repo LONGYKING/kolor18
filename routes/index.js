@@ -123,7 +123,7 @@ router.post('/register', function(req, res, next){
   }).then((token) => {
 
     req.session.x_auth = token;
-    req.session.code = generateOTP();
+    req.session.code = generateOTP;
     res.header('x-auth', token).redirect('/auth');
   }).catch((e) => {
     return res.send(e);
