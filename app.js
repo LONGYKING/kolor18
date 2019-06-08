@@ -13,7 +13,7 @@ const fs           = require('fs');
  * user defined modules
  * routers
  */
-const indexRouter  = require('./routes/base');
+const indexRouter  = require('./routes/index');
 const usersRouter  = require('./routes/users');
 const postsRouter  = require('./routes/post');
 const setupsRouter = require('./routes/setup');
