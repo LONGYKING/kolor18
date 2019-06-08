@@ -2,7 +2,7 @@ var express = require('express');
 var _       = require('lodash');
 const mailer   = require('nodemailer');
 var router  = express.Router();
-
+var {generateOTP}    = require('../helpers/help');
 var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
 var feeds   = require('../models/activitymodel');
