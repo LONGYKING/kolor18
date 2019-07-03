@@ -1,7 +1,8 @@
 var express = require('express');
+var router  = express.Router();
 var _       = require('lodash');
 var mailer   = require('nodemailer');
-var router  = express.Router();
+
 var {generateOTP}    = require('../helpers/help');
 var {user}    = require('../models/usermodel');
 var {post}  = require('../models/postmodel');
