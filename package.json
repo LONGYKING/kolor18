@@ -21,7 +21,7 @@
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.0",
     "lodash": "^4.17.11",
-    "mongoose": "^5.4.17",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "node-addon-api": "^1.6.2",
     "nodemailer": "^6.1.1",
