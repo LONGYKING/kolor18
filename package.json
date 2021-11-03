@@ -27,7 +27,7 @@
     "nodemailer": "^6.1.1",
     "request": "^2.88.0",
     "socketio": "^1.0.0",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "node-gyp": "^3.8.0"
